@@ -8,6 +8,8 @@
 ehthumbs.db
 Thumbs.db
 node_modules/
+.env
+.env.*
 
 # Shopify CLI files
 .shopify/
