@@ -1,39 +1,123 @@
 <footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+  <div class="footer__top">
+    <div class="footer__brand" style="--footer-logo-max-width: {{ section.settings.logo_max_width }}px;">
+      {%- if section.settings.logo != blank -%}
+        <a class="footer__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag:
+              loading: 'lazy',
+              widths: '150, 300, 450, 600',
+              sizes: '(max-width: 750px) 50vw, 200px',
+              alt: shop.name
+          }}
+        </a>
+      {%- else -%}
+        <p class="footer__name">
+          {{ shop.name | link_to: routes.root_url }}
+        </p>
+      {%- endif -%}
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+      {%- if section.settings.description != blank -%}
+        <div class="footer__description">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
+    <nav class="footer__links" aria-label="Footer">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
       {% endfor %}
+    </nav>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="footer__copyright">
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ powered_by_link }}
+    </div>
+
+    {% if section.settings.show_payment_icons %}
+      <div class="footer__payment">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag }}
+        {% endfor %}
+      </div>
     {% endif %}
   </div>
 </footer>
 
 {% stylesheet %}
   footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
   }
   footer a {
     text-decoration: none;
     color: var(--color-foreground);
   }
-  footer .footer__links,
-  footer .footer__payment {
+
+  .footer__top {
     display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .footer__brand {
+    flex: 1 1 16rem;
+    max-width: 40ch;
+  }
+  .footer__name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  .footer__logo img {
+    width: auto;
+    max-width: var(--footer-logo-max-width, 120px);
+    height: auto;
+  }
+  .footer__description {
+    margin-top: 0.75rem;
+    line-height: 1.5;
+    font-size: 0.9375rem;
+  }
+  .footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
+    margin-top: 2rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+  }
+  .footer__payment {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 750px) {
+    .footer__top {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .footer__links {
+      align-items: flex-start;
+      text-align: left;
+    }
+    .footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 {% endstylesheet %}
 
@@ -41,6 +125,27 @@
 {
   "name": "t:general.footer",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. Falls back to the shop name when empty."
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 60,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
     {
       "type": "link_list",
       "id": "menu",
