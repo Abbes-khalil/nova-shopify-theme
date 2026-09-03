@@ -1,22 +1,47 @@
 <header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
-
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+  <div class="header__branding" style="--header-logo-max-width: {{ section.settings.logo_max_width }}px;">
+    {%- if section.settings.logo != blank -%}
+      <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        {{
+          section.settings.logo
+          | image_url: width: 600
+          | image_tag:
+            loading: 'eager',
+            widths: '150, 300, 450, 600',
+            sizes: '(max-width: 750px) 40vw, 200px',
+            alt: shop.name
+        }}
+      </a>
+    {%- else -%}
+      <h2 class="header__title">
+        {{ shop.name | link_to: routes.root_url }}
+      </h2>
+    {%- endif -%}
   </div>
 
+  <nav class="header__menu" aria-label="Primary">
+    {% for link in section.settings.menu.links %}
+    <a href="{{ link.url }}">
+      {{ link.title}}
+    </a>
+    {% endfor %}
+  </nav>
+
   <div class="header__icons">
+    <a href="{{ routes.search_url }}" class="header__search" aria-label="Search">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </a>
+
     {% if shop.customer_accounts_enabled %}
       <shopify-account menu="{{ section.settings.customer_account_menu }}">
         {{ 'icon-account.svg' | inline_asset_content }}
       </shopify-account>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}">
+    <a href="{{ routes.cart_url }}" aria-label="Cart">
       {% if cart.item_count > 0 %}
         <sup>{{ cart.item_count }}</sup>
       {% endif %}
@@ -32,6 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
   }
   header a {
     position: relative;
@@ -47,12 +73,46 @@
     overflow: hidden;
     max-width: var(--page-margin);
   }
-  header svg {
+  header a svg {
     width: 2rem;
   }
-  header .header__menu,
-  header .header__icons {
+  .header__search {
+    flex: 0 0 auto;
+  }
+  .header__search svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  .header__branding {
+    flex: 0 0 auto;
+  }
+  .header__title {
+    margin: 0;
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
+  .header__logo img {
+    width: auto;
+    max-width: var(--header-logo-max-width, 120px);
+    height: auto;
+  }
+  .header__menu {
+    flex: 1 1 auto;
     display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .header__menu a {
+    color: var(--color-foreground);
+    letter-spacing: 0.02em;
+  }
+  .header__menu a:hover {
+    text-decoration: underline;
+  }
+  .header__icons {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
     gap: 1rem;
   }
 {% endstylesheet %}
@@ -61,6 +121,27 @@
 {
   "name": "t:general.header",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. Falls back to the shop name when empty."
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 60,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+    {
+      "type": "link_list",
+      "id": "search_menu",
+      "label": "Search menu"
+    },
     {
       "type": "link_list",
       "id": "menu",
