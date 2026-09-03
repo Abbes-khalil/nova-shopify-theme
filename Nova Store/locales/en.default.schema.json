@@ -36,6 +36,7 @@
   "labels": {
     "alignment": "Alignment",
     "background": "Background",
+    "brand": "Brand color",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
@@ -72,6 +73,6 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
   }
 }

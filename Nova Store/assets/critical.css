@@ -75,7 +75,7 @@ p:empty {
 body {
   font-family: var(--font-primary--family);
   background-color: var(--color-background);
-  color: var(--color-foreground);
+  color: var(--color-brand);
 }
 
 /** Section layout utilities */
@@ -97,7 +97,8 @@ body {
     calc(100% - var(--page-margin) * 2)
   );
   --content-margin: minmax(var(--page-margin), 1fr);
-  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+  --content-grid: var(--content-margin) var(--content-width)
+    var(--content-margin);
 
   /* This is required to make <img> elements work as background images */
   position: relative;

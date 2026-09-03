@@ -1,0 +1,95 @@
+{% comment %}
+  Announcement Bar
+  A global, configurable message shown above the header on every page.
+  All content and colors are set in the Theme Editor via section.settings.
+{% endcomment %}
+
+{%- if section.settings.enabled and section.settings.text != blank -%}
+  {%- liquid
+    assign bg = section.settings.background
+    assign fg = section.settings.text_color
+  -%}
+
+  <div
+    class="announcement-bar full-width"
+    style="--announcement-bg: {{ bg }}; --announcement-fg: {{ fg }};"
+  >
+    {%- if section.settings.link != blank -%}
+      <a class="announcement-bar__inner announcement-bar__link" href="{{ section.settings.link }}">
+        {{ section.settings.text | escape }}
+      </a>
+    {%- else -%}
+      <p class="announcement-bar__inner">{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .announcement-bar {
+    background-color: var(--announcement-bg, #121212);
+    color: var(--announcement-fg, #ffffff);
+  }
+
+  .announcement-bar__inner {
+    margin: 0;
+    padding: 0.5rem var(--page-margin, 20px);
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+
+  .announcement-bar__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .announcement-bar__link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 750px) {
+    .announcement-bar__inner {
+      font-size: 0.8125rem;
+      padding-inline: 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "info": "Leave empty to hide the bar."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link (optional)"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ]
+}
+{% endschema %}
