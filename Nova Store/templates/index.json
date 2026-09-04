@@ -9,12 +9,63 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "nova-hero": {
+      "type": "nova-hero",
+      "settings": {
+        "heading": "Your headline here",
+        "heading_tag": "h1",
+        "description": "<p>Add a short description for this section.</p>",
+        "content_position": "center_center",
+        "text_alignment": "left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20
+      }
+    },
+    "shop-by-category": {
+      "type": "nova-shop-by-category",
+      "blocks": {
+        "category-1": {
+          "type": "category-card",
+          "settings": {}
+        },
+        "category-2": {
+          "type": "category-card",
+          "settings": {}
+        },
+        "category-3": {
+          "type": "category-card",
+          "settings": {}
+        }
+      },
+      "block_order": ["category-1", "category-2", "category-3"],
+      "settings": {
+        "heading": "Shop by category"
+      }
+    },
+    "featured-collection": {
+      "type": "nova-featured-collection",
+      "settings": {
+        "heading": "Featured collection",
+        "products_to_show": 4
+      }
+    },
+    "promo-banner": {
+      "type": "nova-hero",
+      "settings": {
+        "heading": "Your headline here",
+        "heading_tag": "h2",
+        "description": "<p>Add a short description for this section.</p>",
+        "content_position": "center_center",
+        "text_alignment": "left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20
+      }
     }
   },
   "order": [
-    "main"
+    "nova-hero",
+    "shop-by-category",
+    "featured-collection",
+    "promo-banner"
   ]
 }

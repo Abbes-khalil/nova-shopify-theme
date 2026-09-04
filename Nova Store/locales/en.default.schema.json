@@ -66,7 +66,9 @@
     "collection": "Collection",
     "custom_image": "Custom image",
     "custom_image_info": "Overrides the collection image when set.",
-    "products_to_show": "Products to show"
+    "products_to_show": "Products to show",
+    "heading_tag": "Heading tag",
+    "heading_tag_info": "Use Heading 1 for the main page heading. If you add this section again lower on the page (e.g. as a promo banner), set it to Heading 2 to avoid multiple H1s."
   },
   "options": {
     "alignment": {
@@ -101,6 +103,10 @@
       "bottom_left": "Bottom left",
       "bottom_center": "Bottom center",
       "bottom_right": "Bottom right"
+    },
+    "heading_tag": {
+      "h1": "Heading 1",
+      "h2": "Heading 2"
     }
   }
 }

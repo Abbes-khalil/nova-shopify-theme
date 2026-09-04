@@ -12,6 +12,7 @@
     assign has_distinct_mobile_image = true
   endif
   assign hero_alt = desktop_image.alt | default: section.settings.heading | escape
+  assign heading_tag = section.settings.heading_tag | default: 'h1'
 %}
 
 <div class="nova-hero full-width" style="--nova-hero-overlay-color: {{ section.settings.overlay_color }}; --nova-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
@@ -44,7 +45,7 @@
 
   <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }};">
     {% if section.settings.heading != blank %}
-      <h1 class="nova-hero__heading">{{ section.settings.heading }}</h1>
+      <{{ heading_tag }} class="nova-hero__heading">{{ section.settings.heading }}</{{ heading_tag }}>
     {% endif %}
 
     {% if section.settings.description != blank %}
@@ -161,6 +162,17 @@
       "id": "heading",
       "label": "t:labels.heading",
       "default": "Your headline here"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "t:labels.heading_tag",
+      "info": "t:labels.heading_tag_info",
+      "default": "h1",
+      "options": [
+        { "value": "h1", "label": "t:options.heading_tag.h1" },
+        { "value": "h2", "label": "t:options.heading_tag.h2" }
+      ]
     },
     {
       "type": "richtext",
