@@ -1,0 +1,52 @@
+{% doc %}
+  Renders a product card linking to the product's URL, with image, title and
+  formatted price.
+
+  @param {product} product - The product to render
+
+  @example
+  {% render 'product-card', product: product %}
+{% enddoc %}
+
+<a href="{{ product.url }}" class="product-card">
+  {% if product.featured_image %}
+    {% render 'image',
+      class: 'product-card__image',
+      image: product.featured_image,
+      width: 400,
+      height: 400,
+      crop: 'center'
+    %}
+  {% endif %}
+
+  <div class="product-card__content">
+    <p class="product-card__title">{{ product.title }}</p>
+    <p class="product-card__price">{{ product.price | money }}</p>
+  </div>
+</a>
+
+{% stylesheet %}
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+
+  .product-card__image {
+    border-radius: var(--style-border-radius-inputs);
+  }
+
+  .product-card__title {
+    font-family: var(--font-primary--family);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .product-card__price {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+{% endstylesheet %}

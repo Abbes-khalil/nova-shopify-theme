@@ -13,6 +13,7 @@
     "column": "Column",
     "content": "Content",
     "custom_section": "Custom section",
+    "featured_collection": "Featured collection",
     "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
@@ -64,7 +65,8 @@
     "overlay_opacity": "Overlay opacity",
     "collection": "Collection",
     "custom_image": "Custom image",
-    "custom_image_info": "Overrides the collection image when set."
+    "custom_image_info": "Overrides the collection image when set.",
+    "products_to_show": "Products to show"
   },
   "options": {
     "alignment": {
