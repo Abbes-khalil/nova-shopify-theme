@@ -1,0 +1,74 @@
+{% doc %}
+  Renders a single category card linking to a merchant-selected collection.
+  The card title and URL always come from the selected collection; the image
+  falls back to the collection's featured image when no custom image is set.
+
+  @example
+  {% content_for 'block', type: 'category-card', id: 'category-card' %}
+{% enddoc %}
+
+{% liquid
+  assign collection = block.settings.collection
+  assign card_image = block.settings.custom_image | default: collection.featured_image
+%}
+
+{% if collection %}
+  <a
+    href="{{ collection.url }}"
+    class="category-card"
+    {{ block.shopify_attributes }}
+  >
+    {% if card_image %}
+      {% render 'image',
+        class: 'category-card__image',
+        image: card_image,
+        width: 600,
+        height: 600,
+        crop: 'center'
+      %}
+    {% endif %}
+
+    <span class="category-card__title">{{ collection.title }}</span>
+  </a>
+{% endif %}
+
+{% stylesheet %}
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+
+  .category-card__image {
+    border-radius: var(--style-border-radius-inputs);
+  }
+
+  .category-card__title {
+    font-family: var(--font-primary--family);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.category_card",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:labels.collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_image",
+      "label": "t:labels.custom_image",
+      "info": "t:labels.custom_image_info"
+    }
+  ]
+}
+{% endschema %}

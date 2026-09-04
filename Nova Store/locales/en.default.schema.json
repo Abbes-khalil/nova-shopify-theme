@@ -16,6 +16,7 @@
     "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
+    "category_card": "Category card",
     "header": "Header",
     "hero": "Hero",
     "layout": "Layout",
@@ -29,6 +30,7 @@
     "secondary": "Secondary",
     "section": "Section",
     "settings": "Settings",
+    "shop_by_category": "Shop by category",
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
@@ -59,7 +61,10 @@
     "cta_url": "Button link",
     "content_position": "Content position",
     "overlay_color": "Overlay color",
-    "overlay_opacity": "Overlay opacity"
+    "overlay_opacity": "Overlay opacity",
+    "collection": "Collection",
+    "custom_image": "Custom image",
+    "custom_image_info": "Overrides the collection image when set."
   },
   "options": {
     "alignment": {
