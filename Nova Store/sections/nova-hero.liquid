@@ -1,0 +1,235 @@
+{% comment %}
+  Full-width homepage hero with a configurable image, overlay, heading,
+  description and call-to-action. Falls back to the desktop image when no
+  mobile image is selected.
+{% endcomment %}
+
+{% liquid
+  assign desktop_image = section.settings.desktop_image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+  assign has_distinct_mobile_image = false
+  if section.settings.mobile_image and section.settings.mobile_image != desktop_image
+    assign has_distinct_mobile_image = true
+  endif
+  assign hero_alt = desktop_image.alt | default: section.settings.heading | escape
+%}
+
+<div class="nova-hero full-width" style="--nova-hero-overlay-color: {{ section.settings.overlay_color }}; --nova-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+  {% if desktop_image %}
+    <picture class="nova-hero__media">
+      {% if has_distinct_mobile_image %}
+        <source
+          media="(max-width: 749px)"
+          srcset="
+            {{- mobile_image | image_url: width: 750 }} 750w,
+            {{ mobile_image | image_url: width: 1100 }} 1100w,
+            {{ mobile_image | image_url: width: 1500 }} 1500w
+          "
+        >
+      {% endif %}
+      {{
+        desktop_image
+        | image_url: width: 3200
+        | image_tag:
+          widths: '750, 1100, 1500, 2000, 2560, 3200',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: hero_alt,
+          class: 'nova-hero__image'
+      }}
+    </picture>
+    <div class="nova-hero__overlay"></div>
+  {% endif %}
+
+  <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }};">
+    {% if section.settings.heading != blank %}
+      <h1 class="nova-hero__heading">{{ section.settings.heading }}</h1>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <div class="nova-hero__description">{{ section.settings.description }}</div>
+    {% endif %}
+
+    {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+      <a href="{{ section.settings.cta_url }}" class="nova-hero__cta">
+        {{ section.settings.cta_label }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .nova-hero {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    width: 100%;
+    min-height: clamp(20rem, 45vw, 34rem);
+    color: var(--color-background);
+    background-color: var(--color-foreground);
+  }
+
+  .nova-hero__media {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .nova-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .nova-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--nova-hero-overlay-color);
+    opacity: var(--nova-hero-overlay-opacity);
+    pointer-events: none;
+  }
+
+  .nova-hero__content {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    max-width: 34rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    text-align: var(--nova-hero-text-align);
+  }
+
+  .nova-hero__content--top_left { align-self: start; justify-self: start; }
+  .nova-hero__content--top_center { align-self: start; justify-self: center; }
+  .nova-hero__content--top_right { align-self: start; justify-self: end; }
+  .nova-hero__content--center_left { align-self: center; justify-self: start; }
+  .nova-hero__content--center_center { align-self: center; justify-self: center; }
+  .nova-hero__content--center_right { align-self: center; justify-self: end; }
+  .nova-hero__content--bottom_left { align-self: end; justify-self: start; }
+  .nova-hero__content--bottom_center { align-self: end; justify-self: center; }
+  .nova-hero__content--bottom_right { align-self: end; justify-self: end; }
+
+  .nova-hero__heading {
+    font-family: var(--font-primary--family);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .nova-hero__description {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.5;
+  }
+
+  .nova-hero__cta {
+    display: inline-block;
+    padding: 0.75em 1.5em;
+    border-radius: var(--style-border-radius-inputs);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 749px) {
+    .nova-hero__content {
+      max-width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "t:labels.desktop_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "t:labels.mobile_image",
+      "info": "t:labels.mobile_image_info"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Your headline here"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "<p>Add a short description for this section.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:labels.cta_label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:labels.cta_url"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "t:labels.content_position",
+      "default": "center_center",
+      "options": [
+        { "value": "top_left", "label": "t:options.content_position.top_left" },
+        { "value": "top_center", "label": "t:options.content_position.top_center" },
+        { "value": "top_right", "label": "t:options.content_position.top_right" },
+        { "value": "center_left", "label": "t:options.content_position.center_left" },
+        { "value": "center_center", "label": "t:options.content_position.center_center" },
+        { "value": "center_right", "label": "t:options.content_position.center_right" },
+        { "value": "bottom_left", "label": "t:options.content_position.bottom_left" },
+        { "value": "bottom_center", "label": "t:options.content_position.bottom_center" },
+        { "value": "bottom_right", "label": "t:options.content_position.bottom_right" }
+      ]
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "t:labels.alignment",
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:labels.overlay_color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:labels.overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero",
+      "settings": {
+        "heading": "Your headline here",
+        "description": "<p>Add a short description for this section.</p>",
+        "content_position": "center_center",
+        "text_alignment": "left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20
+      }
+    }
+  ]
+}
+{% endschema %}

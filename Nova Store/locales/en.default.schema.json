@@ -17,6 +17,7 @@
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
+    "hero": "Hero",
     "layout": "Layout",
     "main": "Main",
     "page": "Page",
@@ -48,7 +49,17 @@
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "desktop_image": "Desktop image",
+    "mobile_image": "Mobile image",
+    "mobile_image_info": "Defaults to the desktop image when empty.",
+    "heading": "Heading",
+    "description": "Description",
+    "cta_label": "Button label",
+    "cta_url": "Button link",
+    "content_position": "Content position",
+    "overlay_color": "Overlay color",
+    "overlay_opacity": "Overlay opacity"
   },
   "options": {
     "alignment": {
@@ -73,5 +84,16 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "content_position": {
+      "top_left": "Top left",
+      "top_center": "Top center",
+      "top_right": "Top right",
+      "center_left": "Center left",
+      "center_center": "Center",
+      "center_right": "Center right",
+      "bottom_left": "Bottom left",
+      "bottom_center": "Bottom center",
+      "bottom_right": "Bottom right"
+    }
   }
 }
