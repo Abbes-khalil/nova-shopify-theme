@@ -46,6 +46,10 @@
     "password": "Password",
     "enter": "Enter"
   },
+  "products": {
+    "sale": "Sale",
+    "sold_out": "Sold out"
+  },
   "search": {
     "title": "Search",
     "placeholder": "Search articles, pages, or products",

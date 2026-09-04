@@ -1,6 +1,8 @@
 {% doc %}
-  Renders a product card linking to the product's URL, with image, title and
-  formatted price.
+  Renders a product card linking to the product's URL, with a responsive
+  lazy-loaded image, title, formatted price (with sale/compare-at price when
+  applicable) and a sold-out badge when the product has no available
+  inventory.
 
   @param {product} product - The product to render
 
@@ -8,20 +10,49 @@
   {% render 'product-card', product: product %}
 {% enddoc %}
 
+{% liquid
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+  assign image_alt = product.featured_image.alt | default: product.title | escape
+%}
+
 <a href="{{ product.url }}" class="product-card">
-  {% if product.featured_image %}
-    {% render 'image',
-      class: 'product-card__image',
-      image: product.featured_image,
-      width: 400,
-      height: 400,
-      crop: 'center'
-    %}
-  {% endif %}
+  <div class="product-card__media">
+    {% if product.featured_image %}
+      {{
+        product.featured_image
+        | image_url: width: 1200
+        | image_tag:
+          widths: '200, 400, 600, 800, 1200',
+          sizes: '(min-width: 990px) 25vw, 50vw',
+          loading: 'lazy',
+          alt: image_alt,
+          class: 'product-card__image'
+      }}
+    {% endif %}
+
+    {% unless product.available %}
+      <span class="product-card__badge product-card__badge--sold-out">{{ 'products.sold_out' | t }}</span>
+    {% else %}
+      {% if on_sale %}
+        <span class="product-card__badge product-card__badge--sale">{{ 'products.sale' | t }}</span>
+      {% endif %}
+    {% endunless %}
+  </div>
 
   <div class="product-card__content">
     <p class="product-card__title">{{ product.title }}</p>
-    <p class="product-card__price">{{ product.price | money }}</p>
+
+    <p class="product-card__price-group">
+      {% if on_sale %}
+        <span class="product-card__price product-card__price--sale">{{ product.price | money }}</span>
+        <s class="product-card__price product-card__price--compare">{{ product.compare_at_price | money }}</s>
+      {% else %}
+        <span class="product-card__price">{{ product.price | money }}</span>
+      {% endif %}
+    </p>
   </div>
 </a>
 
@@ -35,8 +66,28 @@
     text-decoration: none;
   }
 
+  .product-card__media {
+    position: relative;
+  }
+
   .product-card__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     border-radius: var(--style-border-radius-inputs);
+  }
+
+  .product-card__badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.25em 0.6em;
+    border-radius: var(--style-border-radius-inputs);
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   .product-card__title {
@@ -45,8 +96,24 @@
     font-weight: 600;
   }
 
-  .product-card__price {
+  .product-card__price-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
     font-size: 0.9rem;
+  }
+
+  .product-card__price {
     opacity: 0.8;
+  }
+
+  .product-card__price--sale {
+    color: var(--color-foreground);
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .product-card__price--compare {
+    opacity: 0.6;
   }
 {% endstylesheet %}
