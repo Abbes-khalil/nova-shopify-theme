@@ -13,10 +13,13 @@
     "column": "Column",
     "content": "Content",
     "custom_section": "Custom section",
+    "featured_collection": "Featured collection",
     "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
+    "category_card": "Category card",
     "header": "Header",
+    "hero": "Hero",
     "layout": "Layout",
     "main": "Main",
     "page": "Page",
@@ -28,6 +31,7 @@
     "secondary": "Secondary",
     "section": "Section",
     "settings": "Settings",
+    "shop_by_category": "Shop by category",
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
@@ -49,7 +53,23 @@
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "desktop_image": "Desktop image",
+    "mobile_image": "Mobile image",
+    "mobile_image_info": "Defaults to the desktop image when empty.",
+    "heading": "Heading",
+    "description": "Description",
+    "cta_label": "Button label",
+    "cta_url": "Button link",
+    "content_position": "Content position",
+    "overlay_color": "Overlay color",
+    "overlay_opacity": "Overlay opacity",
+    "collection": "Collection",
+    "custom_image": "Custom image",
+    "custom_image_info": "Overrides the collection image when set.",
+    "products_to_show": "Products to show",
+    "heading_tag": "Heading tag",
+    "heading_tag_info": "Use Heading 1 for the main page heading. If you add this section again lower on the page (e.g. as a promo banner), set it to Heading 2 to avoid multiple H1s."
   },
   "options": {
     "alignment": {
@@ -73,6 +93,24 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+<<<<<<< HEAD
+=======
+    },
+    "content_position": {
+      "top_left": "Top left",
+      "top_center": "Top center",
+      "top_right": "Top right",
+      "center_left": "Center left",
+      "center_center": "Center",
+      "center_right": "Center right",
+      "bottom_left": "Bottom left",
+      "bottom_center": "Bottom center",
+      "bottom_right": "Bottom right"
+    },
+    "heading_tag": {
+      "h1": "Heading 1",
+      "h2": "Heading 2"
+>>>>>>> feature/homepage
     }
   }
 }

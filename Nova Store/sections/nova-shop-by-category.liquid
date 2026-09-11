@@ -1,0 +1,59 @@
+{% comment %}
+  Homepage category grid. Each card is a "category-card" block driven by a
+  merchant-selected collection - see blocks/category-card.liquid.
+{% endcomment %}
+
+<div class="shop-by-category">
+  {% if section.settings.heading != blank %}
+    <h2 class="shop-by-category__heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="shop-by-category__grid">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .shop-by-category__heading {
+    font-family: var(--font-primary--family);
+    color: var(--color-foreground);
+    margin-block-end: 1.5rem;
+    text-align: center;
+  }
+
+  .shop-by-category__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+    gap: 1.5rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.shop_by_category",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Shop by category"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category-card"
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "t:general.shop_by_category",
+      "blocks": [
+        { "type": "category-card" },
+        { "type": "category-card" },
+        { "type": "category-card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,94 @@
+{% comment %}
+  Homepage featured collection teaser. Merchant selects a collection in the
+  Theme Editor; products are pulled live from that collection, never
+  hardcoded. Reuses snippets/product-card.liquid for each product.
+{% endcomment %}
+
+{% liquid
+  assign collection = section.settings.collection
+%}
+
+<div class="featured-collection">
+  {% if collection %}
+    <div class="featured-collection__header">
+      {% if section.settings.heading != blank %}
+        <h2 class="featured-collection__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      <a href="{{ collection.url }}" class="featured-collection__view-all">
+        {{ 'featured_collection.view_all' | t }}
+      </a>
+    </div>
+
+    <div class="featured-collection__grid">
+      {% for product in collection.products limit: section.settings.products_to_show %}
+        {% render 'product-card', product: product %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="featured-collection__empty">{{ 'featured_collection.no_collection' | t }}</p>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .featured-collection__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .featured-collection__heading {
+    font-family: var(--font-primary--family);
+    color: var(--color-foreground);
+  }
+
+  .featured-collection__view-all {
+    color: var(--color-foreground);
+    white-space: nowrap;
+  }
+
+  .featured-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    gap: 1.5rem;
+  }
+
+  .featured-collection__empty {
+    color: var(--color-foreground);
+    text-align: center;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.featured_collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:labels.collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "t:labels.products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.featured_collection"
+    }
+  ]
+}
+{% endschema %}

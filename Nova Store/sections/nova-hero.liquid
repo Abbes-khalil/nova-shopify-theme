@@ -1,4 +1,5 @@
 {% comment %}
+<<<<<<< HEAD
   NOVA Hero
   A configurable hero section: image, heading, description, and a call-to-action button.
   All content is editable in the Theme Editor via section.settings.
@@ -22,15 +23,70 @@
   <div class="nova-hero__content">
     {% if section.settings.heading != blank %}
       <h2 class="nova-hero__heading">{{ section.settings.heading | escape }}</h2>
+=======
+  Full-width homepage hero with a configurable image, overlay, heading,
+  description and call-to-action. Falls back to the desktop image when no
+  mobile image is selected.
+{% endcomment %}
+
+{% liquid
+  assign desktop_image = section.settings.desktop_image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+  assign has_distinct_mobile_image = false
+  if section.settings.mobile_image and section.settings.mobile_image != desktop_image
+    assign has_distinct_mobile_image = true
+  endif
+  assign hero_alt = desktop_image.alt | default: section.settings.heading | escape
+  assign heading_tag = section.settings.heading_tag | default: 'h1'
+%}
+
+<div class="nova-hero full-width" style="--nova-hero-overlay-color: {{ section.settings.overlay_color }}; --nova-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+  {% if desktop_image %}
+    <picture class="nova-hero__media">
+      {% if has_distinct_mobile_image %}
+        <source
+          media="(max-width: 749px)"
+          srcset="
+            {{- mobile_image | image_url: width: 750 }} 750w,
+            {{ mobile_image | image_url: width: 1100 }} 1100w,
+            {{ mobile_image | image_url: width: 1500 }} 1500w
+          "
+        >
+      {% endif %}
+      {{
+        desktop_image
+        | image_url: width: 3200
+        | image_tag:
+          widths: '750, 1100, 1500, 2000, 2560, 3200',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: hero_alt,
+          class: 'nova-hero__image'
+      }}
+    </picture>
+    <div class="nova-hero__overlay"></div>
+  {% endif %}
+
+  <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }};">
+    {% if section.settings.heading != blank %}
+      <{{ heading_tag }} class="nova-hero__heading">{{ section.settings.heading }}</{{ heading_tag }}>
+>>>>>>> feature/homepage
     {% endif %}
 
     {% if section.settings.description != blank %}
       <div class="nova-hero__description">{{ section.settings.description }}</div>
     {% endif %}
 
+<<<<<<< HEAD
     {% if section.settings.button_label != blank and section.settings.button_link != blank %}
       <a href="{{ section.settings.button_link }}" class="nova-hero__button">
         {{ section.settings.button_label | escape }}
+=======
+    {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+      <a href="{{ section.settings.cta_url }}" class="nova-hero__cta">
+        {{ section.settings.cta_label }}
+>>>>>>> feature/homepage
       </a>
     {% endif %}
   </div>
@@ -40,26 +96,53 @@
   .nova-hero {
     position: relative;
     display: grid;
+<<<<<<< HEAD
     grid-template-columns: var(--content-grid);
     align-items: center;
     min-height: var(--nova-hero-min-height, 480px);
     overflow: hidden;
+=======
+    overflow: hidden;
+    width: 100%;
+    min-height: clamp(20rem, 45vw, 34rem);
+    color: var(--color-background);
+    background-color: var(--color-foreground);
+>>>>>>> feature/homepage
   }
 
   .nova-hero__media {
     position: absolute;
     inset: 0;
+<<<<<<< HEAD
     z-index: 0;
+=======
+    display: block;
+    width: 100%;
+    height: 100%;
+>>>>>>> feature/homepage
   }
 
   .nova-hero__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+<<<<<<< HEAD
+=======
+    object-position: center;
+  }
+
+  .nova-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--nova-hero-overlay-color);
+    opacity: var(--nova-hero-overlay-opacity);
+    pointer-events: none;
+>>>>>>> feature/homepage
   }
 
   .nova-hero__content {
     position: relative;
+<<<<<<< HEAD
     z-index: 1;
     grid-column: 2;
     padding: 48px 24px;
@@ -86,35 +169,110 @@
     background-color: #ffffff;
     color: #111111;
     border-radius: 4px;
+=======
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    max-width: 34rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    text-align: var(--nova-hero-text-align);
+  }
+
+  .nova-hero__content--top_left { align-self: start; justify-self: start; }
+  .nova-hero__content--top_center { align-self: start; justify-self: center; }
+  .nova-hero__content--top_right { align-self: start; justify-self: end; }
+  .nova-hero__content--center_left { align-self: center; justify-self: start; }
+  .nova-hero__content--center_center { align-self: center; justify-self: center; }
+  .nova-hero__content--center_right { align-self: center; justify-self: end; }
+  .nova-hero__content--bottom_left { align-self: end; justify-self: start; }
+  .nova-hero__content--bottom_center { align-self: end; justify-self: center; }
+  .nova-hero__content--bottom_right { align-self: end; justify-self: end; }
+
+  .nova-hero__heading {
+    font-family: var(--font-primary--family);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .nova-hero__description {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.5;
+  }
+
+  .nova-hero__cta {
+    display: inline-block;
+    padding: 0.75em 1.5em;
+    border-radius: var(--style-border-radius-inputs);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+>>>>>>> feature/homepage
     text-decoration: none;
     font-weight: 600;
   }
 
+<<<<<<< HEAD
   @media (max-width: 750px) {
     .nova-hero__heading {
       font-size: 1.875rem;
+=======
+  @media screen and (max-width: 749px) {
+    .nova-hero__content {
+      max-width: 100%;
+>>>>>>> feature/homepage
     }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
+<<<<<<< HEAD
   "name": "NOVA Hero",
   "settings": [
     {
       "type": "image_picker",
       "id": "image",
       "label": "Hero image"
+=======
+  "name": "t:general.hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "t:labels.desktop_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "t:labels.mobile_image",
+      "info": "t:labels.mobile_image_info"
+>>>>>>> feature/homepage
     },
     {
       "type": "text",
       "id": "heading",
+<<<<<<< HEAD
       "label": "Heading",
       "default": "Your heading here"
+=======
+      "label": "t:labels.heading",
+      "default": "Your headline here"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "t:labels.heading_tag",
+      "info": "t:labels.heading_tag_info",
+      "default": "h1",
+      "options": [
+        { "value": "h1", "label": "t:options.heading_tag.h1" },
+        { "value": "h2", "label": "t:options.heading_tag.h2" }
+      ]
+>>>>>>> feature/homepage
     },
     {
       "type": "richtext",
       "id": "description",
+<<<<<<< HEAD
       "label": "Description",
       "default": "<p>Add a short description to support your heading.</p>"
     },
@@ -138,11 +296,76 @@
       "step": 20,
       "unit": "px",
       "default": 480
+=======
+      "label": "t:labels.description",
+      "default": "<p>Add a short description for this section.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:labels.cta_label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:labels.cta_url"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "t:labels.content_position",
+      "default": "center_center",
+      "options": [
+        { "value": "top_left", "label": "t:options.content_position.top_left" },
+        { "value": "top_center", "label": "t:options.content_position.top_center" },
+        { "value": "top_right", "label": "t:options.content_position.top_right" },
+        { "value": "center_left", "label": "t:options.content_position.center_left" },
+        { "value": "center_center", "label": "t:options.content_position.center_center" },
+        { "value": "center_right", "label": "t:options.content_position.center_right" },
+        { "value": "bottom_left", "label": "t:options.content_position.bottom_left" },
+        { "value": "bottom_center", "label": "t:options.content_position.bottom_center" },
+        { "value": "bottom_right", "label": "t:options.content_position.bottom_right" }
+      ]
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "t:labels.alignment",
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:labels.overlay_color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:labels.overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+>>>>>>> feature/homepage
     }
   ],
   "presets": [
     {
+<<<<<<< HEAD
       "name": "NOVA Hero"
+=======
+      "name": "t:general.hero",
+      "settings": {
+        "heading": "Your headline here",
+        "description": "<p>Add a short description for this section.</p>",
+        "content_position": "center_center",
+        "text_alignment": "left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20
+      }
+>>>>>>> feature/homepage
     }
   ]
 }

@@ -39,6 +39,10 @@
     },
     "title": "Collections"
   },
+  "featured_collection": {
+    "view_all": "View all",
+    "no_collection": "Select a collection to display products."
+  },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
     "card": "Gift card",
