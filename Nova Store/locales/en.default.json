@@ -28,6 +28,11 @@
     }
   },
   "collections": {
+    "empty": "No products found in this collection.",
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
     "title": "Collections"
   },
   "gift_card": {
@@ -41,6 +46,10 @@
     "title": "This shop is private",
     "password": "Password",
     "enter": "Enter"
+  },
+  "products": {
+    "sale": "Sale",
+    "sold_out": "Sold out"
   },
   "search": {
     "title": "Search",
