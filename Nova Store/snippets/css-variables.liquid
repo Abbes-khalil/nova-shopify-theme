@@ -1,4 +1,4 @@
-{% style %}
+  {% style %}
   {% # Loads all font variantions with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
   {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
@@ -12,7 +12,8 @@
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
     --color-background: {{ settings.background_color }};
-    --color-foreground: {{ settings.foreground_color }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --color-brand: {{ settings.brand_color }};
+
   }
 {% endstyle %}

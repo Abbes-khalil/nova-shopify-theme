@@ -1,22 +1,61 @@
 <header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+  <button
+    type="button"
+    class="header__nav-toggle"
+    aria-expanded="false"
+    aria-controls="mobile-nav"
+    aria-label="Menu"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+  <div class="header__branding" style="--header-logo-max-width: {{ section.settings.logo_max_width }}px;">
+    {%- if section.settings.logo != blank -%}
+      <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        {{
+          section.settings.logo
+          | image_url: width: 600
+          | image_tag:
+            loading: 'eager',
+            widths: '150, 300, 450, 600',
+            sizes: '(max-width: 750px) 40vw, 200px',
+            alt: shop.name
+        }}
+      </a>
+    {%- else -%}
+      <h2 class="header__title">
+        {{ shop.name | link_to: routes.root_url }}
+      </h2>
+    {%- endif -%}
   </div>
 
+  <nav class="header__menu" aria-label="Primary">
+    {% for link in section.settings.menu.links %}
+    <a href="{{ link.url }}">
+      {{ link.title}}
+    </a>
+    {% endfor %}
+  </nav>
+
   <div class="header__icons">
+    <a href="{{ routes.search_url }}" class="header__search" aria-label="Search">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </a>
+
     {% if shop.customer_accounts_enabled %}
       <shopify-account menu="{{ section.settings.customer_account_menu }}">
         {{ 'icon-account.svg' | inline_asset_content }}
       </shopify-account>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}">
+    <a href="{{ routes.cart_url }}" aria-label="Cart">
       {% if cart.item_count > 0 %}
         <sup>{{ cart.item_count }}</sup>
       {% endif %}
@@ -26,12 +65,33 @@
   </div>
 </header>
 
+<dialog id="mobile-nav" class="mobile-nav" scroll-lock>
+  <div class="mobile-nav__panel">
+    <div class="mobile-nav__head">
+      <span class="mobile-nav__title">{{ shop.name | escape }}</span>
+      <button type="button" class="mobile-nav__close" data-mobile-nav-close aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mobile-nav__menu" aria-label="Menu">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</dialog>
+
 {% stylesheet %}
   header {
     height: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
   }
   header a {
     position: relative;
@@ -47,24 +107,187 @@
     overflow: hidden;
     max-width: var(--page-margin);
   }
-  header svg {
+  header a svg {
     width: 2rem;
   }
-  header .header__menu,
-  header .header__icons {
+  .header__search {
+    flex: 0 0 auto;
+  }
+  .header__search svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  .header__branding {
+    flex: 0 0 auto;
+  }
+  .header__title {
+    margin: 0;
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
+  .header__logo img {
+    width: auto;
+    max-width: var(--header-logo-max-width, 120px);
+    height: auto;
+  }
+  .header__menu {
+    flex: 1 1 auto;
     display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .header__menu a {
+    color: var(--color-foreground);
+    letter-spacing: 0.02em;
+  }
+  .header__menu a:hover {
+    text-decoration: underline;
+  }
+  .header__icons {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
     gap: 1rem;
   }
+
+  /* Mobile navigation */
+  .header__nav-toggle {
+    display: none;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+  .header__nav-toggle svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .mobile-nav {
+    margin: 0 auto 0 0;
+    padding: 0;
+    width: min(80vw, 320px);
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border: none;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .mobile-nav::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .mobile-nav__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.25rem var(--page-margin, 20px);
+  }
+  .mobile-nav__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .mobile-nav__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  .mobile-nav__close {
+    display: flex;
+    padding: 0;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .mobile-nav__close svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .mobile-nav__menu {
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-nav__menu a {
+    padding: 0.75rem 0;
+    color: var(--color-foreground);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 750px) {
+    .header__nav-toggle {
+      display: flex;
+      order: -1;
+    }
+    .header__menu {
+      display: none;
+    }
+  }
 {% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('.header__nav-toggle').forEach((toggle) => {
+    const dialog = document.getElementById(toggle.getAttribute('aria-controls'));
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+
+    const closeButton = dialog.querySelector('[data-mobile-nav-close]');
+
+    toggle.addEventListener('click', () => {
+      dialog.showModal();
+      toggle.setAttribute('aria-expanded', 'true');
+    });
+
+    closeButton?.addEventListener('click', () => dialog.close());
+
+    // Close when clicking the backdrop (outside the panel).
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    // Runs for every close path: close button, backdrop, Escape key.
+    dialog.addEventListener('close', () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    });
+  });
+{% endjavascript %}
 
 {% schema %}
 {
   "name": "t:general.header",
   "settings": [
     {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. Falls back to the shop name when empty."
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 60,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+    {
+      "type": "link_list",
+      "id": "search_menu",
+      "label": "Search menu"
+    },
+    {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default":"main-menu"
     },
     {
       "type": "link_list",

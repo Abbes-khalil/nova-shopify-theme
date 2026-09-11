@@ -58,15 +58,15 @@
     "settings": [
       {
         "type": "color",
-        "id": "background_color",
-        "default": "#FFFFFF",
-        "label": "t:labels.background"
+        "id": "brand_color",
+        "default": "#121212",
+        "label": "t:labels.brand"
       },
       {
         "type": "color",
-        "id": "foreground_color",
-        "default": "#333333",
-        "label": "t:labels.foreground"
+        "id": "background_color",
+        "default": "#FFFFFF",
+        "label": "t:labels.background"
       },
       {
         "type": "range",

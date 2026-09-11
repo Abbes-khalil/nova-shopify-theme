@@ -1,0 +1,149 @@
+{% comment %}
+  NOVA Hero
+  A configurable hero section: image, heading, description, and a call-to-action button.
+  All content is editable in the Theme Editor via section.settings.
+{% endcomment %}
+
+<div class="nova-hero full-width" style="--nova-hero-min-height: {{ section.settings.min_height }}px;">
+  {% if section.settings.image %}
+    <div class="nova-hero__media">
+      {{
+        section.settings.image
+        | image_url: width: 3000
+        | image_tag:
+          loading: 'lazy',
+          sizes: '100vw',
+          widths: '600, 900, 1200, 1600, 2000, 3000',
+          class: 'nova-hero__image'
+      }}
+    </div>
+  {% endif %}
+
+  <div class="nova-hero__content">
+    {% if section.settings.heading != blank %}
+      <h2 class="nova-hero__heading">{{ section.settings.heading | escape }}</h2>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <div class="nova-hero__description">{{ section.settings.description }}</div>
+    {% endif %}
+
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      <a href="{{ section.settings.button_link }}" class="nova-hero__button">
+        {{ section.settings.button_label | escape }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .nova-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--content-grid);
+    align-items: center;
+    min-height: var(--nova-hero-min-height, 480px);
+    overflow: hidden;
+  }
+
+  .nova-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .nova-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nova-hero__content {
+    position: relative;
+    z-index: 1;
+    grid-column: 2;
+    padding: 48px 24px;
+    max-width: 60ch;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .nova-hero__heading {
+    margin: 0;
+    font-size: 2.5rem;
+    line-height: 1.15;
+  }
+
+  .nova-hero__description {
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  .nova-hero__button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 12px 28px;
+    background-color: #ffffff;
+    color: #111111;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media (max-width: 750px) {
+    .nova-hero__heading {
+      font-size: 1.875rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NOVA Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your heading here"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Add a short description to support your heading.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 480
+    }
+  ],
+  "presets": [
+    {
+      "name": "NOVA Hero"
+    }
+  ]
+}
+{% endschema %}
