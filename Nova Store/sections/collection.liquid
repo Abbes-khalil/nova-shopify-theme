@@ -5,6 +5,7 @@
 
 {% liquid
   assign collection_image_alt = collection.image.alt | default: collection.title | escape
+  assign current_sort_by = collection.sort_by | default: collection.default_sort_by
 %}
 
 <section class="collection-page" aria-labelledby="CollectionTitle-{{ section.id }}">
@@ -40,6 +41,42 @@
 
   <div id="CollectionProductGrid-{{ section.id }}" class="collection-page__products">
     {% if collection.products_count > 0 %}
+      <div class="collection-page__toolbar">
+        <form
+          class="collection-page__sort-form"
+          action="{{ collection.url }}"
+          method="get"
+        >
+          <label class="collection-page__sort-label" for="SortBy-{{ section.id }}">
+            {{ 'collections.sorting.label' | t }}
+          </label>
+          <select
+            id="SortBy-{{ section.id }}"
+            class="collection-page__sort-select"
+            name="sort_by"
+            aria-controls="ProductGrid-{{ section.id }}"
+            data-collection-sort
+          >
+            {% for option in collection.sort_options %}
+              <option
+                value="{{ option.value | escape }}"
+                {% if option.value == current_sort_by %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ option.name | escape }}
+              </option>
+            {% endfor %}
+          </select>
+
+          <noscript>
+            <button class="collection-page__sort-button" type="submit">
+              {{ 'collections.sorting.apply' | t }}
+            </button>
+          </noscript>
+        </form>
+      </div>
+
       <ul id="ProductGrid-{{ section.id }}" class="collection-page__grid" role="list">
         {% for product in collection.products %}
           <li class="collection-page__grid-item">
@@ -107,6 +144,50 @@
     opacity: 0.7;
   }
 
+  .collection-page__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .collection-page__sort-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-foreground);
+  }
+
+  .collection-page__sort-label {
+    flex: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .collection-page__sort-select {
+    min-width: 13rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 2.25rem 0.625rem 0.75rem;
+    border: 1px solid currentcolor;
+    cursor: pointer;
+  }
+
+  .collection-page__sort-select:focus-visible,
+  .collection-page__sort-button:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .collection-page__sort-button {
+    min-height: 2.75rem;
+    padding: 0.625rem 1rem;
+    border: 1px solid var(--color-foreground);
+    border-radius: var(--style-border-radius-inputs);
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    font: inherit;
+    cursor: pointer;
+  }
+
   .collection-page__grid {
     --collection-grid-columns: 2;
     --collection-grid-column-gap: clamp(0.75rem, 2vw, 1.5rem);
@@ -152,6 +233,18 @@
     text-align: center;
   }
 
+  @media screen and (max-width: 47.99rem) {
+    .collection-page__toolbar,
+    .collection-page__sort-form {
+      width: 100%;
+    }
+
+    .collection-page__sort-select {
+      min-width: 0;
+      flex: 1;
+    }
+  }
+
   @media screen and (min-width: 48rem) {
     .collection-page__grid {
       --collection-grid-columns: 3;
@@ -164,6 +257,19 @@
     }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('change', (event) => {
+    const sortSelect = event.target.closest('[data-collection-sort]');
+
+    if (!sortSelect) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort_by', sortSelect.value);
+    url.searchParams.delete('page');
+    window.location.assign(url.toString());
+  });
+{% endjavascript %}
 
 {% schema %}
 {

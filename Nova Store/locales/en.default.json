@@ -33,6 +33,10 @@
       "one": "{{ count }} product",
       "other": "{{ count }} products"
     },
+    "sorting": {
+      "apply": "Apply",
+      "label": "Sort by"
+    },
     "title": "Collections"
   },
   "gift_card": {
