@@ -1,7 +1,6 @@
 {% comment %}
-  Announcement Bar
-  A global, configurable message shown above the header on every page.
-  All content and colors are set in the Theme Editor via section.settings.
+  Homepage announcement bar section.
+  All content and colors are configurable in the Theme Editor.
 {% endcomment %}
 
 {%- if section.settings.enabled and section.settings.text != blank -%}
@@ -78,7 +77,6 @@
       "type": "url",
       "id": "link",
       "label": "Link (optional)",
-      "default": "collections/all"
     },
     {
       "type": "color",
@@ -91,6 +89,11 @@
       "id": "text_color",
       "label": "Text color",
       "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar"
     }
   ]
 }

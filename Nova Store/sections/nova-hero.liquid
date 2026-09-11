@@ -1,29 +1,4 @@
 {% comment %}
-<<<<<<< HEAD
-  NOVA Hero
-  A configurable hero section: image, heading, description, and a call-to-action button.
-  All content is editable in the Theme Editor via section.settings.
-{% endcomment %}
-
-<div class="nova-hero full-width" style="--nova-hero-min-height: {{ section.settings.min_height }}px;">
-  {% if section.settings.image %}
-    <div class="nova-hero__media">
-      {{
-        section.settings.image
-        | image_url: width: 3000
-        | image_tag:
-          loading: 'lazy',
-          sizes: '100vw',
-          widths: '600, 900, 1200, 1600, 2000, 3000',
-          class: 'nova-hero__image'
-      }}
-    </div>
-  {% endif %}
-
-  <div class="nova-hero__content">
-    {% if section.settings.heading != blank %}
-      <h2 class="nova-hero__heading">{{ section.settings.heading | escape }}</h2>
-=======
   Full-width homepage hero with a configurable image, overlay, heading,
   description and call-to-action. Falls back to the desktop image when no
   mobile image is selected.
@@ -70,23 +45,16 @@
 
   <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }};">
     {% if section.settings.heading != blank %}
-      <{{ heading_tag }} class="nova-hero__heading">{{ section.settings.heading }}</{{ heading_tag }}>
->>>>>>> feature/homepage
+      <{{ heading_tag }} class="nova-hero__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
     {% endif %}
 
     {% if section.settings.description != blank %}
       <div class="nova-hero__description">{{ section.settings.description }}</div>
     {% endif %}
 
-<<<<<<< HEAD
-    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-      <a href="{{ section.settings.button_link }}" class="nova-hero__button">
-        {{ section.settings.button_label | escape }}
-=======
     {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
       <a href="{{ section.settings.cta_url }}" class="nova-hero__cta">
-        {{ section.settings.cta_label }}
->>>>>>> feature/homepage
+        {{ section.settings.cta_label | escape }}
       </a>
     {% endif %}
   </div>
@@ -96,38 +64,25 @@
   .nova-hero {
     position: relative;
     display: grid;
-<<<<<<< HEAD
-    grid-template-columns: var(--content-grid);
-    align-items: center;
-    min-height: var(--nova-hero-min-height, 480px);
-    overflow: hidden;
-=======
     overflow: hidden;
     width: 100%;
     min-height: clamp(20rem, 45vw, 34rem);
     color: var(--color-background);
     background-color: var(--color-foreground);
->>>>>>> feature/homepage
   }
 
   .nova-hero__media {
     position: absolute;
     inset: 0;
-<<<<<<< HEAD
-    z-index: 0;
-=======
     display: block;
     width: 100%;
     height: 100%;
->>>>>>> feature/homepage
   }
 
   .nova-hero__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-<<<<<<< HEAD
-=======
     object-position: center;
   }
 
@@ -137,39 +92,10 @@
     background-color: var(--nova-hero-overlay-color);
     opacity: var(--nova-hero-overlay-opacity);
     pointer-events: none;
->>>>>>> feature/homepage
   }
 
   .nova-hero__content {
     position: relative;
-<<<<<<< HEAD
-    z-index: 1;
-    grid-column: 2;
-    padding: 48px 24px;
-    max-width: 60ch;
-    color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-  }
-
-  .nova-hero__heading {
-    margin: 0;
-    font-size: 2.5rem;
-    line-height: 1.15;
-  }
-
-  .nova-hero__description {
-    margin-top: 1rem;
-    line-height: 1.5;
-  }
-
-  .nova-hero__button {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding: 12px 28px;
-    background-color: #ffffff;
-    color: #111111;
-    border-radius: 4px;
-=======
     display: grid;
     justify-items: start;
     gap: 1rem;
@@ -205,34 +131,19 @@
     border-radius: var(--style-border-radius-inputs);
     background-color: var(--color-background);
     color: var(--color-foreground);
->>>>>>> feature/homepage
     text-decoration: none;
     font-weight: 600;
   }
 
-<<<<<<< HEAD
-  @media (max-width: 750px) {
-    .nova-hero__heading {
-      font-size: 1.875rem;
-=======
   @media screen and (max-width: 749px) {
     .nova-hero__content {
       max-width: 100%;
->>>>>>> feature/homepage
     }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-<<<<<<< HEAD
-  "name": "NOVA Hero",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Hero image"
-=======
   "name": "t:general.hero",
   "settings": [
     {
@@ -245,15 +156,10 @@
       "id": "mobile_image",
       "label": "t:labels.mobile_image",
       "info": "t:labels.mobile_image_info"
->>>>>>> feature/homepage
     },
     {
       "type": "text",
       "id": "heading",
-<<<<<<< HEAD
-      "label": "Heading",
-      "default": "Your heading here"
-=======
       "label": "t:labels.heading",
       "default": "Your headline here"
     },
@@ -267,36 +173,10 @@
         { "value": "h1", "label": "t:options.heading_tag.h1" },
         { "value": "h2", "label": "t:options.heading_tag.h2" }
       ]
->>>>>>> feature/homepage
     },
     {
       "type": "richtext",
       "id": "description",
-<<<<<<< HEAD
-      "label": "Description",
-      "default": "<p>Add a short description to support your heading.</p>"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button label",
-      "default": "Shop now"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
-    },
-    {
-      "type": "range",
-      "id": "min_height",
-      "label": "Minimum height",
-      "min": 300,
-      "max": 900,
-      "step": 20,
-      "unit": "px",
-      "default": 480
-=======
       "label": "t:labels.description",
       "default": "<p>Add a short description for this section.</p>"
     },
@@ -348,14 +228,10 @@
       "step": 5,
       "unit": "%",
       "default": 20
->>>>>>> feature/homepage
     }
   ],
   "presets": [
     {
-<<<<<<< HEAD
-      "name": "NOVA Hero"
-=======
       "name": "t:general.hero",
       "settings": {
         "heading": "Your headline here",
@@ -365,7 +241,6 @@
         "overlay_color": "#000000",
         "overlay_opacity": 20
       }
->>>>>>> feature/homepage
     }
   ]
 }

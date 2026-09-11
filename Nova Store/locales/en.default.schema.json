@@ -93,8 +93,6 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-<<<<<<< HEAD
-=======
     },
     "content_position": {
       "top_left": "Top left",
@@ -110,7 +108,6 @@
     "heading_tag": {
       "h1": "Heading 1",
       "h2": "Heading 2"
->>>>>>> feature/homepage
     }
   }
 }

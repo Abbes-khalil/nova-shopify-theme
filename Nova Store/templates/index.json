@@ -21,6 +21,16 @@
         "overlay_opacity": 20
       }
     },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "enabled": true,
+        "text": "Free shipping on orders over $50!",
+        "link": "",
+        "background": "#121212",
+        "text_color": "#ffffff"
+      }
+    },
     "shop-by-category": {
       "type": "nova-shop-by-category",
       "blocks": {
@@ -63,6 +73,7 @@
     }
   },
   "order": [
+    "announcement-bar",
     "nova-hero",
     "shop-by-category",
     "featured-collection",
