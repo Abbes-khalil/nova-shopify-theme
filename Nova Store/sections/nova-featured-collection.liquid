@@ -8,9 +8,10 @@
   assign collection = section.settings.collection
 %}
 
-<div class="featured-collection nova-section">
+<div class="featured-collection nova-section featured-collection--{{ section.settings.composition }}">
   {% if collection != blank %}
     <div class="featured-collection__header">
+      {% if section.settings.eyebrow != blank %}<p class="nova-editorial-label">{{ section.settings.eyebrow | escape }}</p>{% endif %}
       {% if section.settings.heading != blank %}
         <h2 class="featured-collection__heading">{{ section.settings.heading }}</h2>
       {% endif %}
@@ -21,7 +22,7 @@
 
     <div class="featured-collection__grid">
       {% for product in collection.products limit: section.settings.products_to_show %}
-        {% render 'product-card', product: product %}
+        {% render 'product-card', product: product, show_secondary_image: section.settings.show_secondary_image, show_quick_add: section.settings.show_quick_add %}
       {% endfor %}
     </div>
   {% else %}
@@ -84,6 +85,39 @@
       "max": 12,
       "step": 1,
       "default": 4
+    },
+    {
+      "type": "select",
+      "id": "composition",
+      "label": "t:editorial.mode",
+      "default": "grid",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:editorial.grid"
+        },
+        {
+          "value": "rail",
+          "label": "t:editorial.rail"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editorial.eyebrow"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "t:editorial.hover",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "t:editorial.quick_add",
+      "default": false
     }
   ],
   "presets": [

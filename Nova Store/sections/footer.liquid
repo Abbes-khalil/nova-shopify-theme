@@ -1,4 +1,5 @@
 <footer class="nova-site-footer">
+  {% if request.page_type == 'index' and section.settings.wordmark != blank %}<p class="nova-footer-wordmark" aria-hidden="true">{{ section.settings.wordmark | escape }}</p>{% endif %}
   <div class="footer__top">
     <div class="footer__brand" style="--footer-logo-max-width: {{ section.settings.logo_max_width }}px;">
       {%- if section.settings.logo != blank -%}
@@ -165,6 +166,12 @@
       "id": "show_policies",
       "label": "t:labels.show_policies",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "wordmark",
+      "label": "t:editorial.wordmark",
+      "default": "NOVA"
     }
   ]
 }

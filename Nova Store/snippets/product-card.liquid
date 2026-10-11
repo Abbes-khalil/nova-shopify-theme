@@ -2,6 +2,7 @@
   Shared product card for homepage, collection, search and recommendations.
   @param {product} product - Shopify product
   @param {string} [heading_level] - h2 for catalogue/search, h3 for section grids
+  @param {boolean} [show_secondary_image] - Optional hover image in homepage showcases
   @param {boolean} [show_quick_add] - Enable single-variant quick add
 {% enddoc %}
 {% liquid
@@ -20,10 +21,13 @@
 %}
 {% comment %}Shared product card. Quick add only for a single, available variant.{% endcomment %}
 {% if product != blank %}
-  <article class="nova-product-card">
+  <article class="nova-product-card{% if show_secondary_image and product.images.size > 1 %} nova-product-card--has-secondary{% endif %}">
     <a class="nova-product-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
       {% if product.featured_image != blank %}
         {{ product.featured_image | image_url: width: 1000 | image_tag: widths: '240, 360, 540, 750, 1000', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: card_alt }}
+        {% if show_secondary_image and product.images.size > 1 %}
+          {{ product.images[1] | image_url: width: 1000 | image_tag: widths: '240, 360, 540, 750, 1000', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: '', class: 'nova-product-card__secondary' }}
+        {% endif %}
       {% else %}<span class="nova-no-image">{{ 'products.no_image' | t }}</span>{% endif %}
       {% if product.available == false %}<span class="nova-badge">{{ 'products.sold_out' | t }}</span>
       {% elsif card_on_sale %}<span class="nova-badge nova-badge--sale">{{ 'products.sale' | t }}</span>{% endif %}

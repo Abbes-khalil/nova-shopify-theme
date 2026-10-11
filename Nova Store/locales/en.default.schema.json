@@ -220,5 +220,25 @@
     "global_4_name": "Spacing and controls",
     "global_4_settings_0_label": "Section spacing",
     "global_4_settings_1_label": "Button corner radius"
+  },
+  "editorial": {
+    "palette": "Editorial homepage",
+    "ink": "Ink",
+    "bone": "Bone",
+    "warm": "Warm grey",
+    "muted": "Muted grey",
+    "accent": "Highlight",
+    "display_font": "Display font",
+    "mode": "Composition",
+    "standard": "Classic",
+    "campaign": "Campaign",
+    "split": "Editorial split",
+    "statement": "Typography statement",
+    "eyebrow": "Editorial label",
+    "rail": "Essentials rail",
+    "grid": "Product grid",
+    "hover": "Second image on hover",
+    "quick_add": "Enable quick add",
+    "wordmark": "Oversized footer wordmark"
   }
 }

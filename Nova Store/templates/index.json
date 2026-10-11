@@ -3,16 +3,18 @@
     "nova-hero": {
       "type": "nova-hero",
       "settings": {
-        "heading": "Built for Everyday Movement",
+        "heading": "MOVE DIFFERENT.",
         "heading_tag": "h1",
-        "description": "<p>Modern essentials with a clean fit, everyday comfort, and a minimal NOVA identity.</p>",
-        "content_position": "center_left",
+        "description": "<p>Contemporary streetwear. Everyday freedom. Make your own direction.</p>",
+        "content_position": "bottom_left",
         "text_alignment": "left",
         "overlay_color": "#000000",
-        "overlay_opacity": 20,
-        "cta_label": "Shop New Arrivals",
+        "overlay_opacity": 40,
+        "cta_label": "Explore collection",
         "cta_url": "shopify://collections/new-arrivals",
-        "prioritize_image": true
+        "prioritize_image": true,
+        "composition": "campaign",
+        "eyebrow": "NOVA / Everyday movement"
       }
     },
     "shop-by-category": {
@@ -20,59 +22,75 @@
       "blocks": {
         "category-1": {
           "type": "category-card",
-          "settings": {}
+          "settings": {
+            "title": "Clothing"
+          }
         },
         "category-2": {
           "type": "category-card",
-          "settings": {}
-        },
-        "category-3": {
-          "type": "category-card",
-          "settings": {}
+          "settings": {
+            "title": "Accessories"
+          }
         }
       },
       "block_order": [
         "category-1",
-        "category-2",
-        "category-3"
+        "category-2"
       ],
       "settings": {
-        "heading": "Shop by category"
+        "heading": "A different perspective."
       }
     },
     "featured-collection": {
       "type": "nova-featured-collection",
       "settings": {
-        "heading": "Featured collection",
-        "products_to_show": 4
+        "heading": "New season",
+        "products_to_show": 4,
+        "eyebrow": "01 / The latest edit",
+        "composition": "grid",
+        "show_secondary_image": true
       }
     },
     "promo-banner": {
       "type": "nova-hero",
       "settings": {
-        "heading": "The NOVA Sale",
+        "heading": "EVERYDAY. ON YOUR TERMS.",
         "heading_tag": "h2",
-        "description": "<p>Selected essentials. Better prices. Shop your favorite NOVA pieces before they're gone.</p>",
+        "description": "<p>A wardrobe that moves with you. Explore the NOVA essentials.</p>",
         "content_position": "center_left",
         "text_alignment": "left",
         "overlay_color": "#000000",
         "overlay_opacity": 20,
-        "cta_label": "Shop the Sale",
-        "cta_url": "shopify://collections/sale"
+        "cta_label": "Explore the edit",
+        "cta_url": "shopify://collections/all",
+        "composition": "split",
+        "eyebrow": "NOVA / In motion"
       }
     },
     "brand-story": {
       "type": "nova-brand-story",
       "settings": {
-        "heading": "Made for your everyday",
-        "description": "<p>Clean silhouettes. Comfortable fits. Discover the NOVA essentials you can make your own.</p>"
+        "heading": "NOT MADE TO FIT IN.",
+        "description": "<p>For the way you move, not the rules you follow. Considered essentials. An independent point of view.</p>",
+        "statement": true
       }
     },
     "newsletter": {
       "type": "nova-newsletter",
       "settings": {
-        "heading": "Stay in the loop",
-        "description": "<p>New arrivals and updates from NOVA.</p>"
+        "heading": "KEEP MOVING.",
+        "description": "<p>The next NOVA chapter. New collections and stories, straight to your inbox.</p>"
+      }
+    },
+    "selected-essentials": {
+      "type": "nova-featured-collection",
+      "settings": {
+        "heading": "Selected essentials",
+        "eyebrow": "02 / The everyday rotation",
+        "products_to_show": 4,
+        "composition": "rail",
+        "show_secondary_image": true,
+        "show_quick_add": true
       }
     }
   },
@@ -80,8 +98,9 @@
     "nova-hero",
     "shop-by-category",
     "featured-collection",
-    "promo-banner",
     "brand-story",
+    "promo-banner",
+    "selected-essentials",
     "newsletter"
   ]
 }

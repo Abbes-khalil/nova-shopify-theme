@@ -19,16 +19,12 @@
     {{ block.shopify_attributes }}
   >
     {% if card_image %}
-      {% render 'image',
-        class: 'category-card__image',
-        image: card_image,
-        width: 600,
-        height: 750,
-        crop: 'center'
-      %}
+      <div class="category-card__image">
+        {{ card_image | image_url: width: 1800 | image_tag: widths: '360, 600, 900, 1200, 1800', sizes: '(min-width: 750px) 60vw, 100vw', loading: 'lazy', alt: card_image.alt }}
+      </div>
     {% endif %}
 
-    <span class="category-card__title">{{ collection.title }}</span>
+    <span class="category-card__title">{{ block.settings.title | default: collection.title | escape }}</span>
   </a>
 {% endif %}
 
@@ -69,6 +65,11 @@
       "id": "custom_image",
       "label": "t:labels.custom_image",
       "info": "t:labels.custom_image_info"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.heading"
     }
   ]
 }

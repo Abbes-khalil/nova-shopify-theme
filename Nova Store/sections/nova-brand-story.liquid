@@ -1,4 +1,4 @@
-<section class="nova-section nova-story">{% if section.settings.image %}{{ section.settings.image | image_url: width: 1200 | image_tag: widths: '400, 750, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: section.settings.image.alt }}{% endif %}<div><h2>{{ section.settings.heading | escape }}</h2><div class="nova-richtext">{{ section.settings.description }}</div>{% if section.settings.cta_label != blank and section.settings.cta_url != blank %}<a class="nova-button nova-button--secondary" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label | escape }}</a>{% endif %}</div></section>
+<section class="nova-section nova-story{% if section.settings.statement %} nova-story--statement full-width{% endif %}">{% if section.settings.image %}{{ section.settings.image | image_url: width: 1200 | image_tag: widths: '400, 750, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: section.settings.image.alt }}{% endif %}<div><h2>{{ section.settings.heading | escape }}</h2><div class="nova-richtext">{{ section.settings.description }}</div>{% if section.settings.cta_label != blank and section.settings.cta_url != blank %}<a class="nova-button nova-button--secondary" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label | escape }}</a>{% endif %}</div></section>
 
 
 {% schema %}
@@ -30,6 +30,12 @@
       "type": "url",
       "id": "cta_url",
       "label": "t:nova_editor.nova_brand_story_settings_4_label"
+    },
+    {
+      "type": "checkbox",
+      "id": "statement",
+      "label": "t:editorial.statement",
+      "default": false
     }
   ],
   "presets": [
