@@ -34,7 +34,7 @@
   </div>
 
   <nav class="header__menu" aria-label="{{ 'navigation.primary' | t }}">
-    {% render 'navigation-links', links: section.settings.menu.links %}
+    {% render 'navigation-links', menu: section.settings.menu.links %}
   </nav>
 
   <div class="header__icons">
@@ -72,11 +72,11 @@
     </div>
 
     <nav class="mobile-nav__menu" aria-label="Menu">
-      {% render 'navigation-links', links: section.settings.menu.links %}
+      {% render 'navigation-links', menu: section.settings.menu.links %}
     </nav>
   </div>
 </dialog>
-<noscript><nav class="nova-nojs-navigation" aria-label="{{ 'navigation.primary' | t }}">{% render 'navigation-links', links: section.settings.menu.links %}</nav></noscript>
+<noscript><nav class="nova-nojs-navigation" aria-label="{{ 'navigation.primary' | t }}">{% render 'navigation-links', menu: section.settings.menu.links %}</nav></noscript>
 
 {% stylesheet %}
   .nova-site-header {

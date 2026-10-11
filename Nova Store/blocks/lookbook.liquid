@@ -1,0 +1,30 @@
+{% assign entry = block.settings.lookbook %}
+{% if entry != blank %}
+  <div class="nova-lookbook" {{ block.shopify_attributes }}>
+    {% assign lookbook_image = entry.image.value.preview_image | default: entry.image.value %}
+    {% if lookbook_image != blank %}{{ lookbook_image | image_url: width: 1600 | image_tag: widths: '480, 750, 1100, 1600', sizes: '100vw', loading: 'lazy', alt: lookbook_image.alt }}{% endif %}
+    <h2>{{ entry.title.value | escape }}</h2>
+    {% if entry.description != blank %}<div class="nova-richtext">{{ entry.description | metafield_tag }}</div>{% endif %}
+    {% if entry.collection_reference.value != blank %}<a class="nova-text-link" href="{{ entry.collection_reference.value.url }}">{{ 'home.view_collection' | t }}</a>{% endif %}
+    {% if entry.products.value != blank %}<div class="nova-product-grid">{% for product in entry.products.value %}{% render 'product-card', product: product, show_quick_add: false %}{% endfor %}</div>{% endif %}
+  </div>
+{% elsif request.design_mode %}<p {{ block.shopify_attributes }}>{{ 'home.configure' | t }}</p>{% endif %}
+
+{% schema %}
+{
+  "name": "t:general.lookbook",
+  "settings": [
+    {
+      "type": "metaobject",
+      "id": "lookbook",
+      "label": "t:labels.lookbook",
+      "metaobject_type": "lookbook"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.lookbook"
+    }
+  ]
+}
+{% endschema %}

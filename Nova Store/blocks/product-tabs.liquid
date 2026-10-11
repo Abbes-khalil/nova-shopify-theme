@@ -2,7 +2,11 @@
   {% if product.metafields.nova.materials != blank %}<details class="nova-product-detail"><summary>{{ 'enriched.materials' | t }}</summary><div class="nova-richtext">{{ product.metafields.nova.materials | metafield_tag }}</div></details>{% endif %}
   {% if product.metafields.nova.care_instructions != blank %}<details class="nova-product-detail"><summary>{{ 'enriched.care' | t }}</summary><div class="nova-richtext">{{ product.metafields.nova.care_instructions | metafield_tag }}</div></details>{% endif %}
   {% if product.metafields.nova.sustainability != blank %}<details class="nova-product-detail"><summary>{{ 'enriched.sustainability' | t }}</summary><div class="nova-richtext">{{ product.metafields.nova.sustainability | metafield_tag }}</div></details>{% endif %}
-  {% assign chart = product.metafields.nova.size_guide.value %}
+  {% if product.metafields.nova.fit != blank %}<details class="nova-product-detail"><summary>{{ 'enriched.fit' | t }}</summary><div class="nova-richtext">{{ product.metafields.nova.fit | metafield_tag }}</div></details>{% endif %}
+  {% if product.metafields.nova.shipping_information != blank %}<details class="nova-product-detail"><summary>{{ 'products.shipping' | t }}</summary><div class="nova-richtext">{{ product.metafields.nova.shipping_information | metafield_tag }}</div></details>{% endif %}
+  {% assign guide = product.metafields.nova.size_guide_reference.value %}
+  {% assign chart = guide.measurements.value | default: product.metafields.nova.size_guide.value %}
+  {% if guide.description != blank %}<div class="nova-richtext">{{ guide.description | metafield_tag }}</div>{% endif %}
   {% if chart.headers != blank and chart.rows != blank %}
     <details class="nova-product-detail"><summary>{{ 'enriched.size_guide' | t }}</summary><div class="nova-size-chart"><table><caption>{{ 'enriched.size_guide' | t }}</caption><thead><tr>{% for heading in chart.headers %}<th scope="col">{{ heading | escape }}</th>{% endfor %}</tr></thead><tbody>{% for row in chart.rows %}<tr>{% for cell in row %}{% if forloop.first %}<th scope="row">{{ cell | escape }}</th>{% else %}<td>{{ cell | escape }}</td>{% endif %}{% endfor %}</tr>{% endfor %}</tbody></table></div></details>
   {% endif %}
