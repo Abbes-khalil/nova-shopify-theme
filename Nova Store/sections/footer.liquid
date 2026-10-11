@@ -24,13 +24,14 @@
       {%- endif -%}
     </div>
 
-    <nav class="footer__links" aria-label="Footer">
+    <nav class="footer__links" aria-label="{{ 'navigation.footer' | t }}">
       {% for link in section.settings.menu.links %}
         <a href="{{ link.url }}">{{ link.title }}</a>
       {% endfor %}
     </nav>
   </div>
 
+  {% if section.settings.show_policies %}<nav class="nova-footer-policies" aria-label="{{ 'navigation.policies' | t }}">{% for policy in shop.policies %}{% if policy != blank %}<a class="nova-text-link" href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</nav>{% endif %}
   <div class="footer__bottom">
     <div class="footer__copyright">
       &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ powered_by_link }}
@@ -121,6 +122,7 @@
   }
 {% endstylesheet %}
 
+
 {% schema %}
 {
   "name": "t:general.footer",
@@ -155,6 +157,12 @@
       "type": "checkbox",
       "id": "show_payment_icons",
       "label": "t:labels.show_payment_icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policies",
+      "label": "t:labels.show_policies",
       "default": true
     }
   ]

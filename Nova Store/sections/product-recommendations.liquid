@@ -3,6 +3,8 @@
 </nova-recommendations>
 <script src="{{ 'recommendations.js' | asset_url }}" defer></script>
 
+
+
 {% schema %}
 {
   "name": "t:general.product_recommendations",
@@ -17,9 +19,9 @@
       "type": "range",
       "id": "product_limit",
       "label": "t:labels.product_limit",
-      "min": 4,
+      "min": 2,
       "max": 8,
-      "step": 4,
+      "step": 2,
       "default": 4
     }
   ],

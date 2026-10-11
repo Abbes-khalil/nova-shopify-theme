@@ -17,3 +17,7 @@ node_modules/
 ## Release files
 release
 *.zip
+
+.npm-cache/
+shopify.theme.toml
+reports/

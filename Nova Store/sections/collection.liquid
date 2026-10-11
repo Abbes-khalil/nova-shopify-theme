@@ -4,7 +4,7 @@
     {% if section.settings.show_image and collection.image != blank %}{{ collection.image | image_url: width: 1200 | image_tag: widths: '480, 750, 1000, 1200', sizes: '(min-width: 990px) 40vw, 100vw', loading: 'eager', class: 'nova-collection-header__image', alt: collection.image.alt }}{% endif %}
   </header>
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-  <button class="nova-button nova-button--secondary nova-filter-open" type="button" data-filter-open hidden aria-controls="FilterDrawer-{{ section.id }}">{{ 'catalog.filters' | t }}</button>
+  <button class="nova-button nova-button--secondary nova-filter-open" type="button" data-filter-open aria-expanded="false" hidden aria-controls="FilterDrawer-{{ section.id }}">{{ 'catalog.filters' | t }}</button>
   <div data-filter-anchor></div>
   <form data-filter-form action="{{ collection.url }}" method="get" class="nova-catalog-form">
     <div class="nova-catalog-toolbar"><p>{{ 'catalog.products_count' | t: count: collection.products_count }}</p><label>{{ 'catalog.sort' | t }}<select name="sort_by">{% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}</select></label></div>
@@ -20,7 +20,7 @@
   </div>
   {% paginate collection.products by section.settings.products_per_page %}
     {% if collection.products_count > 0 %}
-      <div class="nova-product-grid">{% for product in collection.products %}{% render 'product-card', product: product, show_quick_add: section.settings.show_quick_add %}{% endfor %}</div>
+      <div class="nova-product-grid">{% for product in collection.products %}{% render 'product-card', product: product, heading_level: 'h2', show_quick_add: section.settings.show_quick_add %}{% endfor %}</div>
       {% render 'pagination', paginate: paginate %}
     {% else %}
       {% assign empty_title = 'catalog.no_results' | t %}{% if collection.all_products_count == 0 %}{% assign empty_title = 'catalog.empty' | t %}{% endif %}

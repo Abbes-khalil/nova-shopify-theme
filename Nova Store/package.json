@@ -1,0 +1,22 @@
+{
+  "name": "nova-shopify-theme",
+  "version": "0.3.0",
+  "private": true,
+  "description": "NOVA personal streetwear demo theme built on Shopify Skeleton Online Store 2.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "shopify theme dev",
+    "check": "shopify theme check",
+    "check:json": "shopify theme check --output json",
+    "package": "shopify theme package",
+    "seed:preview": "node scripts/seed-products.mjs --dry-run --definitions",
+    "test": "node --test tests/storefront.test.mjs",
+    "check:structure": "node scripts/validate-theme.mjs",
+    "verify": "node scripts/verify.mjs"
+  },
+  "devDependencies": {
+    "@shopify/cli": "4.9.3"
+  }
+}

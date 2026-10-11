@@ -111,14 +111,14 @@
   display:grid;
   gap:.5rem
 }
-.nova-product-card h3 {
+.nova-product-card__title {
   font-size:1rem;
   font-weight:600
 }
-.nova-product-card h3 a {
+.nova-product-card__title a {
   text-decoration:none
 }
-.nova-product-card h3 a:hover {
+.nova-product-card__title a:hover {
   text-decoration:underline
 }
 .nova-price {

@@ -11,3 +11,13 @@
 #
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
+
+scripts/**
+tests/**
+node_modules/**
+package*.json
+AGENTS.md
+CLAUDE.md
+copilot-instructions.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md

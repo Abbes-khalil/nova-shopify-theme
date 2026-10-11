@@ -8,7 +8,7 @@
       {% paginate search.results by section.settings.results_per_page %}
         <div class="nova-product-grid">
           {% for result in search.results %}
-            {% if result.object_type == 'product' %}{% render 'product-card', product: result, show_quick_add: true %}
+            {% if result.object_type == 'product' %}{% render 'product-card', product: result, heading_level: 'h2', show_quick_add: true %}
             {% else %}<article class="nova-search-result">{% assign result_image = result.image | default: result.featured_image %}{% if result_image != blank %}<a href="{{ result.url }}">{{ result_image | image_url: width: 750 | image_tag: widths: '360, 540, 750', sizes: '(min-width: 990px) 25vw, 100vw', loading: 'lazy', alt: result_image.alt }}</a>{% endif %}<p class="nova-eyebrow">{% if result.object_type == 'article' %}{{ 'search.articles' | t }}{% else %}{{ 'search.pages' | t }}{% endif %}</p><h2><a href="{{ result.url }}">{{ result.title | escape }}</a></h2><p>{{ result.content | strip_html | truncatewords: 24 | escape }}</p></article>{% endif %}
           {% endfor %}
         </div>

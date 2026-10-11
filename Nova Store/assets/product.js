@@ -105,8 +105,9 @@ if (!customElements.get('nova-product')) {
         if (nextQuantity?.type === 'number' && previousQuantity) {
           const minimum = Number(nextQuantity.min) || 1;
           const increment = Number(nextQuantity.step) || 1;
-          const maximum = Number(nextQuantity.max) || Infinity;
-          nextQuantity.value = Math.min(maximum, minimum + Math.max(0, Math.floor((Number(previousQuantity) - minimum) / increment)) * increment);
+          const maximum = nextQuantity.max === '' ? Infinity : Number(nextQuantity.max);
+          const allowedMaximum = minimum + Math.max(0, Math.floor((maximum - minimum) / increment)) * increment;
+          nextQuantity.value = Math.min(allowedMaximum, minimum + Math.max(0, Math.floor((Number(previousQuantity) - minimum) / increment)) * increment);
         }
         const nextPlan = next.querySelector('[name="selling_plan"]');
         if (nextPlan && [...nextPlan.options].some((option) => option.value === previousPlan)) nextPlan.value = previousPlan;
@@ -120,7 +121,7 @@ if (!customElements.get('nova-product')) {
         history.replaceState({}, '', current);
         this.querySelector('[data-variant-status]').textContent = next.querySelector('[data-product-stock]').textContent + ' — ' + next.querySelector('[data-product-price]').textContent;
       } catch (error) {
-        if (error.name === 'AbortError') return;
+        if (error.name === 'AbortError' || version !== this.requestVersion || !this.isConnected) return;
         // A read-only full-page render keeps variant selection usable if section rendering fails.
         url.searchParams.delete('section_id');
         location.assign(url);

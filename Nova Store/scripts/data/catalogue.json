@@ -1,0 +1,111 @@
+[
+  {
+    "title": "Oversized T-Shirt",
+    "handle": "oversized-t-shirt",
+    "price": "49.00",
+    "type": "T-Shirts",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "<p>A relaxed, oversized silhouette for everyday layering.</p>",
+    "tags": [
+      "new-arrivals",
+      "nova-demo",
+      "clothing"
+    ]
+  },
+  {
+    "title": "Essential Hoodie",
+    "handle": "essential-hoodie",
+    "price": "69.00",
+    "compare": "89.00",
+    "type": "Hoodies",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "<p>An everyday hoodie with an easy, relaxed fit.</p>",
+    "tags": [
+      "new-arrivals",
+      "sale",
+      "nova-demo",
+      "clothing"
+    ]
+  },
+  {
+    "title": "Relaxed Cargo Pants",
+    "handle": "relaxed-cargo-pants",
+    "price": "79.00",
+    "compare": "99.00",
+    "type": "Pants",
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "description": "<p>Relaxed cargo pants with room for your everyday essentials.</p>",
+    "tags": [
+      "sale",
+      "nova-demo",
+      "clothing"
+    ]
+  },
+  {
+    "title": "Zip Jacket",
+    "handle": "zip-jacket",
+    "price": "109.00",
+    "type": "Jackets",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "<p>A zip-front layer for your daily rotation.</p>",
+    "tags": [
+      "new-arrivals",
+      "nova-demo",
+      "clothing"
+    ]
+  },
+  {
+    "title": "Ribbed Tank",
+    "handle": "ribbed-tank",
+    "price": "39.00",
+    "compare": "49.00",
+    "type": "Tops",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "<p>A ribbed tank made for wearing alone or under everyday layers.</p>",
+    "tags": [
+      "sale",
+      "nova-demo",
+      "clothing"
+    ]
+  },
+  {
+    "title": "Everyday Cap",
+    "handle": "everyday-cap",
+    "price": "35.00",
+    "type": "Accessories",
+    "sizes": [
+      "One Size"
+    ],
+    "description": "<p>The finishing touch for an everyday uniform.</p>",
+    "tags": [
+      "nova-demo",
+      "accessories"
+    ]
+  }
+]

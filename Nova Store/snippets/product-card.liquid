@@ -1,9 +1,14 @@
 {% doc %}
   Shared product card for homepage, collection, search and recommendations.
   @param {product} product - Shopify product
+  @param {string} [heading_level] - h2 for catalogue/search, h3 for section grids
   @param {boolean} [show_quick_add] - Enable single-variant quick add
 {% enddoc %}
 {% liquid
+  assign card_heading_tag = 'h3'
+  if heading_level == 'h2'
+    assign card_heading_tag = 'h2'
+  endif
   assign card_variant = product.selected_or_first_available_variant
   assign card_on_sale = false
   if product.price_varies == false and product.compare_at_price_varies == false
@@ -24,7 +29,7 @@
       {% elsif card_on_sale %}<span class="nova-badge nova-badge--sale">{{ 'products.sale' | t }}</span>{% endif %}
     </a>
     <div class="nova-product-card__info">
-      <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      <{{ card_heading_tag }} class="nova-product-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></{{ card_heading_tag }}>
       <p class="nova-price">
         {% if product.price_varies %}{% assign formatted_price = product.price | money %}{{ 'products.from' | t: price: formatted_price }}
         {% else %}{{ product.price | money }}{% endif %}
