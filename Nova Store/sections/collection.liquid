@@ -1,279 +1,72 @@
-{% comment %}
-  Main collection page section. Shopify provides the contextual collection
-  object automatically when this section renders through collection.json.
-{% endcomment %}
-
-{% liquid
-  assign collection_image_alt = collection.image.alt | default: collection.title | escape
-  assign current_sort_by = collection.sort_by | default: collection.default_sort_by
-%}
-
-<section class="collection-page" aria-labelledby="CollectionTitle-{{ section.id }}">
-  <header class="collection-page__header">
-    {% if collection.image %}
-      <div class="collection-page__media">
-        {{
-          collection.image
-          | image_url: width: 2000
-          | image_tag:
-            widths: '550, 750, 1100, 1500, 2000',
-            sizes: '(min-width: 1200px) 1150px, 100vw',
-            loading: 'eager',
-            fetchpriority: 'high',
-            alt: collection_image_alt,
-            class: 'collection-page__image'
-        }}
-      </div>
-    {% endif %}
-
-    <div class="collection-page__intro">
-      <h1 id="CollectionTitle-{{ section.id }}" class="collection-page__title">{{ collection.title }}</h1>
-
-      {% if collection.description != blank %}
-        <div class="collection-page__description rte">{{ collection.description }}</div>
-      {% endif %}
-
-      <p class="collection-page__count">
-        {{ 'collections.product_count' | t: count: collection.products_count }}
-      </p>
-    </div>
+<div class="nova-section" data-filter-section>
+  <header class="nova-collection-header">
+    <div><h1 class="nova-page-title">{{ collection.title | escape }}</h1>{% if collection.description != blank %}<div class="nova-richtext">{{ collection.description }}</div>{% endif %}</div>
+    {% if section.settings.show_image and collection.image != blank %}{{ collection.image | image_url: width: 1200 | image_tag: widths: '480, 750, 1000, 1200', sizes: '(min-width: 990px) 40vw, 100vw', loading: 'eager', class: 'nova-collection-header__image', alt: collection.image.alt }}{% endif %}
   </header>
-
-  <div id="CollectionProductGrid-{{ section.id }}" class="collection-page__products">
-    {% if collection.products_count > 0 %}
-      <div class="collection-page__toolbar">
-        <form
-          class="collection-page__sort-form"
-          action="{{ collection.url }}"
-          method="get"
-        >
-          <label class="collection-page__sort-label" for="SortBy-{{ section.id }}">
-            {{ 'collections.sorting.label' | t }}
-          </label>
-          <select
-            id="SortBy-{{ section.id }}"
-            class="collection-page__sort-select"
-            name="sort_by"
-            aria-controls="ProductGrid-{{ section.id }}"
-            data-collection-sort
-          >
-            {% for option in collection.sort_options %}
-              <option
-                value="{{ option.value | escape }}"
-                {% if option.value == current_sort_by %}
-                  selected="selected"
-                {% endif %}
-              >
-                {{ option.name | escape }}
-              </option>
-            {% endfor %}
-          </select>
-
-          <noscript>
-            <button class="collection-page__sort-button" type="submit">
-              {{ 'collections.sorting.apply' | t }}
-            </button>
-          </noscript>
-        </form>
-      </div>
-
-      <ul id="ProductGrid-{{ section.id }}" class="collection-page__grid" role="list">
-        {% for product in collection.products %}
-          <li class="collection-page__grid-item">
-            {% render 'product-card', product: product %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <div class="collection-page__empty" role="status">
-        <p>{{ 'collections.empty' | t }}</p>
-      </div>
-    {% endif %}
+  {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+  <button class="nova-button nova-button--secondary nova-filter-open" type="button" data-filter-open hidden aria-controls="FilterDrawer-{{ section.id }}">{{ 'catalog.filters' | t }}</button>
+  <div data-filter-anchor></div>
+  <form data-filter-form action="{{ collection.url }}" method="get" class="nova-catalog-form">
+    <div class="nova-catalog-toolbar"><p>{{ 'catalog.products_count' | t: count: collection.products_count }}</p><label>{{ 'catalog.sort' | t }}<select name="sort_by">{% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}</select></label></div>
+    {% if section.settings.show_filters and collection.filters != blank %}{% render 'filters', filters: collection.filters %}{% endif %}
+    <div class="nova-filter-actions"><button class="nova-button nova-button--secondary" type="submit">{{ 'catalog.apply' | t }}</button><a class="nova-text-link" href="{{ collection.url }}?sort_by={{ sort_by | url_encode }}">{{ 'catalog.clear' | t }}</a></div>
+  </form>
+  <dialog class="nova-filter-dialog" id="FilterDrawer-{{ section.id }}" data-filter-dialog scroll-lock aria-labelledby="FilterTitle-{{ section.id }}"><div class="nova-filter-dialog__head"><h2 id="FilterTitle-{{ section.id }}">{{ 'catalog.filters' | t }}</h2><button class="nova-text-link" type="button" data-filter-close>{{ 'accessibility.close' | t }}</button></div><div data-filter-host></div></dialog>
+  <div class="nova-active-filters">
+    {% for filter in collection.filters %}
+      {% for value in filter.active_values %}<a href="{{ value.url_to_remove }}">{{ 'catalog.remove' | t: label: value.label | escape }} &times;</a>{% endfor %}
+      {% if filter.type == 'price_range' %}{% if filter.min_value.value != blank or filter.max_value.value != blank %}<a href="{{ filter.url_to_remove }}">{{ 'catalog.remove' | t: label: filter.label | escape }} &times;</a>{% endif %}{% endif %}
+    {% endfor %}
   </div>
-</section>
-
-{% stylesheet %}
-  .collection-page {
-    padding-block: clamp(2rem, 6vw, 5rem);
-  }
-
-  .collection-page__header {
-    display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    margin-block-end: clamp(2rem, 5vw, 4rem);
-  }
-
-  .collection-page__media {
-    overflow: hidden;
-    border-radius: var(--style-border-radius-inputs);
-  }
-
-  .collection-page__image {
-    width: 100%;
-    aspect-ratio: 16 / 7;
-    object-fit: cover;
-  }
-
-  .collection-page__intro {
-    max-width: 50rem;
-  }
-
-  .collection-page__title {
-    color: var(--color-foreground);
-    font-family: var(--font-primary--family);
-    font-size: clamp(2rem, 5vw, 4rem);
-    line-height: 1.05;
-  }
-
-  .collection-page__description {
-    max-width: 65ch;
-    margin-block-start: 1rem;
-    color: var(--color-foreground);
-    line-height: 1.6;
-    opacity: 0.8;
-  }
-
-  .collection-page__description > * + * {
-    margin-block-start: 0.75rem;
-  }
-
-  .collection-page__count {
-    margin-block-start: 1rem;
-    color: var(--color-foreground);
-    font-size: 0.875rem;
-    opacity: 0.7;
-  }
-
-  .collection-page__toolbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .collection-page__sort-form {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--color-foreground);
-  }
-
-  .collection-page__sort-label {
-    flex: none;
-    font-size: 0.875rem;
-    font-weight: 600;
-  }
-
-  .collection-page__sort-select {
-    min-width: 13rem;
-    min-height: 2.75rem;
-    padding: 0.625rem 2.25rem 0.625rem 0.75rem;
-    border: 1px solid currentcolor;
-    cursor: pointer;
-  }
-
-  .collection-page__sort-select:focus-visible,
-  .collection-page__sort-button:focus-visible {
-    outline: 2px solid var(--color-foreground);
-    outline-offset: 2px;
-  }
-
-  .collection-page__sort-button {
-    min-height: 2.75rem;
-    padding: 0.625rem 1rem;
-    border: 1px solid var(--color-foreground);
-    border-radius: var(--style-border-radius-inputs);
-    background-color: var(--color-foreground);
-    color: var(--color-background);
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .collection-page__grid {
-    --collection-grid-columns: 2;
-    --collection-grid-column-gap: clamp(0.75rem, 2vw, 1.5rem);
-    --collection-grid-row-gap: clamp(2rem, 4vw, 3.25rem);
-
-    display: grid;
-    grid-template-columns: repeat(var(--collection-grid-columns), minmax(0, 1fr));
-    align-items: stretch;
-    column-gap: var(--collection-grid-column-gap);
-    row-gap: var(--collection-grid-row-gap);
-    padding: 0;
-    list-style: none;
-  }
-
-  .collection-page__grid-item {
-    display: flex;
-    min-width: 0;
-  }
-
-  .collection-page__grid-item > .product-card {
-    height: 100%;
-  }
-
-  .collection-page__grid-item .product-card__content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-
-  .collection-page__grid-item .product-card__price-group {
-    flex-wrap: wrap;
-    margin-block-start: auto;
-    padding-block-start: 0.25rem;
-  }
-
-  .collection-page__empty {
-    display: grid;
-    min-height: 12rem;
-    place-items: center;
-    padding: 2rem var(--page-margin);
-    border-block: 1px solid var(--color-foreground);
-    color: var(--color-foreground);
-    text-align: center;
-  }
-
-  @media screen and (max-width: 47.99rem) {
-    .collection-page__toolbar,
-    .collection-page__sort-form {
-      width: 100%;
-    }
-
-    .collection-page__sort-select {
-      min-width: 0;
-      flex: 1;
-    }
-  }
-
-  @media screen and (min-width: 48rem) {
-    .collection-page__grid {
-      --collection-grid-columns: 3;
-    }
-  }
-
-  @media screen and (min-width: 64rem) {
-    .collection-page__grid {
-      --collection-grid-columns: 4;
-    }
-  }
-{% endstylesheet %}
-
-{% javascript %}
-  document.addEventListener('change', (event) => {
-    const sortSelect = event.target.closest('[data-collection-sort]');
-
-    if (!sortSelect) return;
-
-    const url = new URL(window.location.href);
-    url.searchParams.set('sort_by', sortSelect.value);
-    url.searchParams.delete('page');
-    window.location.assign(url.toString());
-  });
-{% endjavascript %}
+  {% paginate collection.products by section.settings.products_per_page %}
+    {% if collection.products_count > 0 %}
+      <div class="nova-product-grid">{% for product in collection.products %}{% render 'product-card', product: product, show_quick_add: section.settings.show_quick_add %}{% endfor %}</div>
+      {% render 'pagination', paginate: paginate %}
+    {% else %}
+      {% assign empty_title = 'catalog.no_results' | t %}{% if collection.all_products_count == 0 %}{% assign empty_title = 'catalog.empty' | t %}{% endif %}
+      {% assign empty_message = 'catalog.empty_help' | t %}{% render 'empty-state', title: empty_title, message: empty_message %}
+    {% endif %}
+  {% endpaginate %}
+</div>
+<script src="{{ 'filters.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
   "name": "t:general.collection",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:labels.show_image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "t:labels.show_filters",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "t:labels.show_quick_add",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:labels.products_per_page",
+      "min": 12,
+      "max": 48,
+      "step": 12,
+      "default": 24
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  }
 }
 {% endschema %}

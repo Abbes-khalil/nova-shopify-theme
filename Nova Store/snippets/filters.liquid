@@ -1,0 +1,32 @@
+<details class="nova-filters" open>
+  <summary>{{ 'catalog.filters' | t }}</summary>
+  <div class="nova-filters__groups">
+    {% for filter in filters %}
+      <fieldset class="nova-filter">
+        <legend>{{ filter.label | escape }}</legend>
+        {% case filter.type %}
+          {% when 'boolean', 'list' %}
+            <div class="nova-filter__values">
+              {% for value in filter.values %}
+                <label class="nova-checkbox">
+                  <input type="checkbox" name="{{ value.param_name | escape }}" value="{{ value.value | escape }}"{% if value.active %} checked{% elsif value.count == 0 %} disabled{% endif %}>
+                  <span>{{ value.label | escape }} ({{ value.count }})</span>
+                </label>
+              {% endfor %}
+            </div>
+          {% when 'price_range' %}
+            {% assign range_max = filter.range_max | divided_by: 100.0 %}
+            <p>{{ 'catalog.price_currency' | t: currency: cart.currency.iso_code }}</p>
+            <div class="nova-price-range" data-price-range>
+              <label>{{ 'catalog.min_price' | t }}<input data-price-min type="number" inputmode="decimal" name="{{ filter.min_value.param_name }}" min="0" max="{{ range_max }}" step="0.01"{% if filter.min_value.value %} value="{{ filter.min_value.value | divided_by: 100.0 }}"{% endif %} placeholder="0"></label>
+              <label>{{ 'catalog.max_price' | t }}<input data-price-max type="number" inputmode="decimal" name="{{ filter.max_value.param_name }}" min="0" max="{{ range_max }}" step="0.01"{% if filter.max_value.value %} value="{{ filter.max_value.value | divided_by: 100.0 }}"{% endif %} placeholder="{{ range_max }}"></label>
+              <div class="nova-price-sliders" hidden>
+                <label>{{ 'catalog.min_price' | t }}<input data-slider-min type="range" min="0" max="{{ range_max }}" step="0.01" value="{{ filter.min_value.value | default: 0 | divided_by: 100.0 }}"></label>
+                <label>{{ 'catalog.max_price' | t }}<input data-slider-max type="range" min="0" max="{{ range_max }}" step="0.01" value="{{ filter.max_value.value | default: filter.range_max | divided_by: 100.0 }}"></label>
+              </div>
+            </div>
+        {% endcase %}
+      </fieldset>
+    {% endfor %}
+  </div>
+</details>
