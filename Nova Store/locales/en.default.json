@@ -37,7 +37,8 @@
     "discounts": "Discounts",
     "savings": "You saved {{ amount }}",
     "continue": "Continue shopping",
-    "quantity_error": "Choose a quantity that matches the minimum and increment, or 0 to remove it."
+    "quantity_error": "Choose a quantity that matches the minimum and increment, or 0 to remove it.",
+    "item_count": "Cart, {{ count }} items"
   },
   "customers": {
     "login": {
@@ -143,7 +144,9 @@
     "account": "Account",
     "cart_count": "Cart, {{ count }} items",
     "menu": "Menu",
-    "view_all": "View all {{ title }}"
+    "view_all": "View all {{ title }}",
+    "primary": "Primary navigation",
+    "close_menu": "Close menu"
   },
   "home": {
     "configure": "Select collections in Theme Editor to show this section.",

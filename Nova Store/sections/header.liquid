@@ -4,7 +4,7 @@
     class="header__nav-toggle"
     aria-expanded="false"
     aria-controls="mobile-nav"
-    aria-label="Menu"
+    aria-label="{{ 'navigation.menu' | t }}"
   >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -33,7 +33,7 @@
     {%- endif -%}
   </div>
 
-  <nav class="header__menu" aria-label="Primary">
+  <nav class="header__menu" aria-label="{{ 'navigation.primary' | t }}">
     {% for link in section.settings.menu.links %}
     <a href="{{ link.url }}">
       {{ link.title}}
@@ -42,7 +42,7 @@
   </nav>
 
   <div class="header__icons">
-    <a href="{{ routes.search_url }}" class="header__search" aria-label="Search">
+    <a href="{{ routes.search_url }}" class="header__search" aria-label="{{ 'navigation.search' | t }}">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -55,21 +55,19 @@
       </shopify-account>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}" aria-label="Cart">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
+    <a href="{{ routes.cart_url }}" class="nova-header__cart" aria-label="{{ 'cart.item_count' | t: count: cart.item_count }}">
+      <sup class="nova-header__count">{{ cart.item_count }}</sup>
 
       {{ 'icon-cart.svg' | inline_asset_content }}
     </a>
   </div>
 </header>
 
-<dialog id="mobile-nav" class="mobile-nav" scroll-lock>
+<dialog id="mobile-nav" class="mobile-nav" scroll-lock aria-label="{{ 'navigation.menu' | t }}">
   <div class="mobile-nav__panel">
     <div class="mobile-nav__head">
       <span class="mobile-nav__title">{{ shop.name | escape }}</span>
-      <button type="button" class="mobile-nav__close" data-mobile-nav-close aria-label="Close menu">
+      <button type="button" class="mobile-nav__close" data-mobile-nav-close aria-label="{{ 'navigation.close_menu' | t }}">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
           <line x1="6" y1="6" x2="18" y2="18"></line>
           <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -232,7 +230,9 @@
 {% endstylesheet %}
 
 {% javascript %}
-  document.querySelectorAll('.header__nav-toggle').forEach((toggle) => {
+
+  const init=(root=document)=>{root.querySelectorAll('.header__nav-toggle').forEach((toggle) => {
+    if(toggle.dataset.ready)return;toggle.dataset.ready='true';
     const dialog = document.getElementById(toggle.getAttribute('aria-controls'));
     if (!dialog || typeof dialog.showModal !== 'function') return;
 
@@ -255,7 +255,8 @@
       toggle.setAttribute('aria-expanded', 'false');
       toggle.focus();
     });
-  });
+  });};
+  init();document.addEventListener('shopify:section:load',event=>init(event.target));
 {% endjavascript %}
 
 {% schema %}

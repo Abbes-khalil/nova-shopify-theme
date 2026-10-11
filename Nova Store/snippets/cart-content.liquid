@@ -1,0 +1,38 @@
+{% if cart.empty? %}
+  {% assign empty_title = 'cart.empty' | t %}{% assign empty_help = 'cart.empty_help' | t %}{% render 'empty-state', title: empty_title, message: empty_help %}
+{% else %}
+  <form action="{{ routes.cart_url }}" method="post" data-cart-form>
+    <div class="nova-cart-items">
+      {% for item in cart.items %}
+        <article class="nova-cart-item" data-line-key="{{ item.key | escape }}">
+          <a class="nova-cart-item__image" href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 300 | image_tag: widths: '120, 180, 240, 300', sizes: '120px', loading: 'lazy', alt: item.image.alt }}{% endif %}</a>
+          <div class="nova-cart-item__info">
+            <h3><a href="{{ item.url }}">{{ item.product.title | escape }}</a></h3>
+            {% unless item.product.has_only_default_variant %}<p>{{ item.variant.title | escape }}</p>{% endunless %}
+            {% if item.selling_plan_allocation %}<p>{{ item.selling_plan_allocation.selling_plan.name | escape }}</p>{% endif %}
+            {% for property in item.properties %}{% assign first_character = property.first | slice: 0 %}{% if property.last != blank and first_character != '_' %}<p>{{ property.first | escape }}: {{ property.last | escape }}</p>{% endif %}{% endfor %}
+            <p class="nova-price">{{ item.final_price | money }}{% if item.original_price > item.final_price %}<s>{{ item.original_price | money }}</s>{% endif %}</p>
+            {% for allocation in item.line_level_discount_allocations %}<p class="nova-cart-discount">{{ allocation.discount_application.title | escape }} (−{{ allocation.amount | money }})</p>{% endfor %}
+            {% if item.unit_price_measurement %}<p>{{ item.unit_price | money }}/{{ item.unit_price_measurement.reference_value }}{{ item.unit_price_measurement.reference_unit }}</p>{% endif %}
+            <label for="CartQty-{{ section.id }}-{{ forloop.index }}">{{ 'products.quantity' | t }}</label>
+            <input class="nova-cart-quantity" type="number" id="CartQty-{{ section.id }}-{{ forloop.index }}" name="updates[]" value="{{ item.quantity }}" min="0" step="1" data-quantity-min="{{ item.variant.quantity_rule.min }}" data-quantity-increment="{{ item.variant.quantity_rule.increment }}"{% if item.variant.quantity_rule.max %} max="{{ item.variant.quantity_rule.max }}"{% endif %} data-cart-quantity aria-label="{{ 'cart.quantity' | t: title: item.product.title | escape }}" inputmode="numeric">
+            <a class="nova-text-link" href="{{ item.url_to_remove }}" data-cart-remove aria-label="{{ 'cart.remove_item' | t: title: item.product.title | escape }}">{{ 'cart.remove' | t }}</a>
+          </div>
+          <p class="nova-cart-item__total"><span class="visually-hidden">{{ 'cart.line_total' | t }}</span>{{ item.final_line_price | money }}</p>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="nova-cart-summary">
+      <label for="CartNote-{{ section.id }}">{{ 'cart.note' | t }}</label>
+      <textarea id="CartNote-{{ section.id }}" name="note" rows="3" aria-describedby="CartNoteHelp-{{ section.id }}">{{ cart.note | escape }}</textarea>
+      <p class="nova-form-help" id="CartNoteHelp-{{ section.id }}">{{ 'cart.note_help' | t }}</p>
+      {% for discount in cart.cart_level_discount_applications %}<p>{{ discount.title | escape }} (−{{ discount.total_allocated_amount | money }})</p>{% endfor %}
+      <p class="nova-cart-subtotal"><span>{{ 'cart.subtotal' | t }}</span><strong>{{ cart.total_price | money_with_currency }}</strong></p>
+      {% if cart.total_discount > 0 %}{% assign savings = cart.total_discount | money %}<p>{{ 'cart.savings' | t: amount: savings }}</p>{% endif %}
+      <p class="nova-form-help">{{ 'cart.taxes_shipping' | t }}</p>
+      <button type="submit" name="update" class="nova-button nova-button--secondary">{{ 'cart.update' | t }}</button>
+      <button type="submit" name="checkout" class="nova-button nova-button--primary">{{ 'cart.checkout' | t }}</button>
+      <a class="nova-text-link" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a>
+    </div>
+  </form>
+{% endif %}

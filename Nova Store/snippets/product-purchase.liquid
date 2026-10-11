@@ -25,7 +25,7 @@
     </select>
     {% if product.options.size > 1 %}
       <div data-option-controls hidden>
-      {% for option in product.options_with_values %}<label for="Option-{{ section.id }}-{{ option.position }}">{{ option.name | escape }}</label><select id="Option-{{ section.id }}-{{ option.position }}" data-option-position="{{ option.position }}">{% for value in option.values %}<option value="{{ value | escape }}"{% if selected_variant.options[forloop.parentloop.index0] == value %} selected{% endif %}>{{ value | escape }}</option>{% endfor %}</select>{% endfor %}
+      {% for option in product.options_with_values %}{% assign option_index = option.position | minus: 1 %}<label for="Option-{{ section.id }}-{{ option.position }}">{{ option.name | escape }}</label><select id="Option-{{ section.id }}-{{ option.position }}" data-option-position="{{ option.position }}">{% for value in option.values %}{% assign option_value = value.name | default: value %}<option value="{{ option_value | escape }}"{% if selected_variant.options[option_index] == option_value %} selected{% endif %}>{{ option_value | escape }}</option>{% endfor %}</select>{% endfor %}
       </div>
       <script type="application/json" data-option-variants>[{% for variant in product.variants %}{"id":{{ variant.id | json }},"options":{{ variant.options | json | replace: '<', '\u003c' }},"available":{{ variant.available | json }}}{% unless forloop.last %},{% endunless %}{% endfor %}]</script>
     {% endif %}

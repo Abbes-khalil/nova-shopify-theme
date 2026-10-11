@@ -37,6 +37,8 @@
 
     <main id="MainContent" tabindex="-1">{{ content_for_layout }}</main>
 
+    {% section 'cart-drawer' %}
     {% sections 'footer-group' %}
+    <script src="{{ 'cart.js' | asset_url }}" defer></script>
   </body>
 </html>

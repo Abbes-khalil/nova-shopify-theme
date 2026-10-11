@@ -1,0 +1,13 @@
+<dialog class="nova-cart-dialog" id="NovaCartDialog" aria-labelledby="CartDrawerTitle">
+  <div class="nova-cart-dialog__header"><h2 id="CartDrawerTitle">{{ 'cart.title' | t }}</h2><button type="button" class="nova-icon-button" data-cart-close aria-label="{{ 'cart.close' | t }}">&times;</button></div>
+  <div data-cart-region data-section-id="{{ section.id }}">{% render 'cart-content', section: section %}</div>
+  <p class="nova-form-status" data-cart-status role="status" tabindex="-1"></p>
+  <a class="nova-text-link" href="{{ routes.cart_url }}">{{ 'cart.view' | t }}</a>
+</dialog>
+
+{% schema %}
+{
+  "name": "t:general.cart_drawer",
+  "settings": []
+}
+{% endschema %}
