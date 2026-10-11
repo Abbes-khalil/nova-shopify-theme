@@ -1,0 +1,4 @@
+reports/
+*.zip
+.env
+.env.*

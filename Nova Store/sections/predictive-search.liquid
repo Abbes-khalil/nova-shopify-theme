@@ -1,0 +1,19 @@
+{% if predictive_search.performed %}
+  <nav aria-label="{{ 'search.suggestions' | t }}" data-predictive-content>
+    {% assign suggestion_count = 0 %}
+    {% for type in predictive_search.resources %}{% assign suggestion_count = suggestion_count | plus: type.last.size %}{% endfor %}
+    {% if predictive_search.resources.products.size > 0 %}<h2>{{ 'search.products' | t }}</h2><ul role="list">{% for item in predictive_search.resources.products %}<li><a href="{{ item.url }}">{% if item.featured_image %}{{ item.featured_image | image_url: width: 120 | image_tag: width: 48, loading: 'lazy', alt: '' }}{% endif %}<span>{{ item.title | escape }}</span><span>{{ item.price | money }}</span></a></li>{% endfor %}</ul>{% endif %}
+    {% if predictive_search.resources.collections.size > 0 %}<h2>{{ 'search.collections' | t }}</h2><ul role="list">{% for item in predictive_search.resources.collections %}<li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>{% endfor %}</ul>{% endif %}
+    {% if predictive_search.resources.articles.size > 0 %}<h2>{{ 'search.articles' | t }}</h2><ul role="list">{% for item in predictive_search.resources.articles %}<li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>{% endfor %}</ul>{% endif %}
+    {% if predictive_search.resources.pages.size > 0 %}<h2>{{ 'search.pages' | t }}</h2><ul role="list">{% for item in predictive_search.resources.pages %}<li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>{% endfor %}</ul>{% endif %}
+    <a class="nova-text-link" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last">{{ 'search.view_all' | t }}</a>
+  </nav>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "t:general.predictive_search",
+  "settings": []
+}
+{% endschema %}

@@ -19,11 +19,11 @@
 
 <meta
   property="og:site_name"
-  content="{{ shop.name }}"
+  content="{{ shop.name | escape }}"
 >
 <meta
   property="og:url"
-  content="{{ og_url }}"
+  content="{{ og_url | escape }}"
 >
 <meta
   property="og:title"
@@ -41,11 +41,11 @@
 {%- if page_image -%}
   <meta
     property="og:image"
-    content="http:{{ page_image | image_url }}"
+    content="https:{{ page_image | image_url: width: 1200 }}"
   >
   <meta
     property="og:image:secure_url"
-    content="https:{{ page_image | image_url }}"
+    content="https:{{ page_image | image_url: width: 1200 }}"
   >
   <meta
     property="og:image:width"
@@ -64,7 +64,7 @@
 
   <meta
     property="og:price:amount"
-    content="{{ product.price | money_without_currency | strip_html }}"
+    content="{{ product.price | divided_by: 100.0 }}"
   >
   <meta
     property="og:price:currency"
@@ -86,15 +86,15 @@
 >
 
 <title>
-  {{ page_title }}
-  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+  {{ page_title | escape }}
+  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' | escape }}"{% endif -%}
   {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
   {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
 <link
   rel="canonical"
-  href="{{ canonical_url }}"
+  href="{{ canonical_url | escape }}"
 >
 
 {% if page_description %}
@@ -103,3 +103,5 @@
     content="{{ page_description | escape }}"
   >
 {% endif %}
+
+{% if request.page_type == 'cart' or request.page_type == 'search' %}<meta name="robots" content="noindex,follow">{% endif %}

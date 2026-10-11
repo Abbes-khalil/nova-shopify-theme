@@ -1,70 +1,44 @@
-{% comment %}
-  This section is used in the search template to render search results for
-  products, articles, and pages.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/search
-{% endcomment %}
-
-<h1>{{ 'search.title' | t }}</h1>
-
-<form action="{{ routes.search_url }}" method="get" role="search">
-  <input
-    type="search"
-    size="50"
-    name="q"
-    value="{{ search.terms | escape }}"
-    placeholder="{{ 'search.placeholder' | t }}"
-  >
-  <button type="submit">{{ 'search.submit' | t }}</button>
-</form>
-
-{% if search.performed %}
-  {% if search.results_count == 0 %}
-    <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-  {% else %}
-    <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
-
-    <div class="search-results">
-      {% paginate search.results by 20 %}
-        {% # Search result items may be an article, a page, or a product. %}
-        {% for result in search.results %}
-          <div class="search-result">
-            {% assign featured_image = result.featured_image | default: result.image %}
-            {% if featured_image %}
-              {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
-            {% endif %}
-            <div class="search-result__content">
-              <p>
-                {{ result.title | link_to: result.url }}
-                {% if result.price %}
-                  {{ result.price | money_with_currency }}
-                {% endif %}
-              </p>
-            </div>
-          </div>
-        {% endfor %}
-
-        {{ paginate | default_pagination }}
+<div class="nova-section">
+  <h1 class="nova-page-title">{{ 'search.title' | t }}</h1>
+  {% render 'search-form', section: section %}
+  {% if search.performed %}
+    {% if search.results_count == 0 %}{% assign empty_title = 'search.no_results' | t: terms: search.terms %}{% assign empty_help = 'search.help' | t %}{% render 'empty-state', title: empty_title, message: empty_help %}
+    {% else %}
+      <p>{{ 'search.results_count' | t: terms: search.terms, count: search.results_count | escape }}</p>
+      {% paginate search.results by section.settings.results_per_page %}
+        <div class="nova-product-grid">
+          {% for result in search.results %}
+            {% if result.object_type == 'product' %}{% render 'product-card', product: result, heading_level: 'h2', show_quick_add: true %}
+            {% else %}<article class="nova-search-result">{% assign result_image = result.image | default: result.featured_image %}{% if result_image != blank %}<a href="{{ result.url }}">{{ result_image | image_url: width: 750 | image_tag: widths: '360, 540, 750', sizes: '(min-width: 990px) 25vw, 100vw', loading: 'lazy', alt: result_image.alt }}</a>{% endif %}<p class="nova-eyebrow">{% if result.object_type == 'article' %}{{ 'search.articles' | t }}{% else %}{{ 'search.pages' | t }}{% endif %}</p><h2><a href="{{ result.url }}">{{ result.title | escape }}</a></h2><p>{{ result.content | strip_html | truncatewords: 24 | escape }}</p></article>{% endif %}
+          {% endfor %}
+        </div>
+        {% render 'pagination', paginate: paginate %}
       {% endpaginate %}
-    </div>
-  {% endif %}
-{% endif %}
+    {% endif %}
+  {% else %}<p>{{ 'search.start' | t }}</p>{% endif %}
+</div>
+<script src="{{ 'search.js' | asset_url }}" defer></script>
 
-{% stylesheet %}
-  .search-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-  .search-results .prev,
-  .search-results .page,
-  .search-results .next {
-    grid-column: 1 / -1;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.search",
-  "settings": []
+  "settings": [
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "t:labels.results_per_page",
+      "min": 12,
+      "max": 48,
+      "step": 12,
+      "default": 24
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  }
 }
 {% endschema %}

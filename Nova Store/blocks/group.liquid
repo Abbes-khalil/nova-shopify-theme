@@ -44,10 +44,15 @@
   }
 {% endstylesheet %}
 
+
 {% schema %}
 {
   "name": "t:general.group",
-  "blocks": [{ "type": "@theme" }],
+  "blocks": [
+    {
+      "type": "@theme"
+    }
+  ],
   "settings": [
     {
       "type": "select",
@@ -55,8 +60,14 @@
       "label": "t:labels.layout_direction",
       "default": "group--vertical",
       "options": [
-        { "value": "group--horizontal", "label": "t:options.direction.horizontal" },
-        { "value": "group--vertical", "label": "t:options.direction.vertical" }
+        {
+          "value": "group--horizontal",
+          "label": "t:options.direction.horizontal"
+        },
+        {
+          "value": "group--vertical",
+          "label": "t:options.direction.vertical"
+        }
       ]
     },
     {
@@ -66,9 +77,18 @@
       "label": "t:labels.alignment",
       "default": "flex-start",
       "options": [
-        { "value": "flex-start", "label": "t:options.alignment.left" },
-        { "value": "center", "label": "t:options.alignment.center" },
-        { "value": "flex-end", "label": "t:options.alignment.right" }
+        {
+          "value": "flex-start",
+          "label": "t:options.alignment.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.alignment.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.alignment.right"
+        }
       ]
     },
     {

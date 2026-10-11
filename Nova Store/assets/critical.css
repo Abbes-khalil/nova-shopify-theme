@@ -75,7 +75,7 @@ p:empty {
 body {
   font-family: var(--font-primary--family);
   background-color: var(--color-background);
-  color: var(--color-brand);
+  color: var(--color-foreground);
 }
 
 /** Section layout utilities */
@@ -97,8 +97,7 @@ body {
     calc(100% - var(--page-margin) * 2)
   );
   --content-margin: minmax(var(--page-margin), 1fr);
-  --content-grid: var(--content-margin) var(--content-width)
-    var(--content-margin);
+  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
 
   /* This is required to make <img> elements work as background images */
   position: relative;
@@ -116,3 +115,22 @@ body {
 .shopify-section > .full-width {
   grid-column: 1 / -1;
 }
+
+/* NOVA foundations: shared tokens, readable content and keyboard access. */
+body { font-size: 1rem; line-height: 1.5; font-style: var(--font-primary--style); font-weight: var(--font-primary--weight); }
+main { flex: 1; min-width: 0; }
+a { color: inherit; text-underline-offset: 0.2em; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; padding: 0.75rem 1rem; color: var(--color-accent-foreground); background: var(--color-accent); transform: translateY(calc(-100% - 2rem)); }
+.skip-link:focus { transform: translateY(0); }
+.nova-button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; max-width: 100%; padding: 0.8rem 1.5rem; border: 1px solid transparent; border-radius: var(--style-border-radius-buttons); font-weight: 600; line-height: 1.25; text-align: center; text-decoration: none; overflow-wrap: anywhere; }
+.nova-button--primary { background: var(--color-accent); color: var(--color-accent-foreground); }
+.nova-button--secondary { background: transparent; color: inherit; border-color: currentColor; }
+.nova-button:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+.nova-richtext > * + * { margin-block-start: 1em; }
+.nova-richtext :is(ul, ol) { padding-inline-start: 1.5em; }
+@media (max-width: 749px) { .shopify-section { --page-margin: min(20px, var(--nova-desktop-margin)); } }
+
+:where(input:not([type='checkbox']):not([type='radio']):not([type='submit']), textarea, select) { min-height: 44px; max-width: 100%; padding: 0.65rem 0.75rem; border: 1px solid currentColor; background: var(--color-surface); color: var(--color-foreground); }

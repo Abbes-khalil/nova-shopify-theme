@@ -1,34 +1,18 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "nova-hero": {
       "type": "nova-hero",
       "settings": {
-        "heading": "Your headline here",
+        "heading": "Built for Everyday Movement",
         "heading_tag": "h1",
-        "description": "<p>Add a short description for this section.</p>",
-        "content_position": "center_center",
+        "description": "<p>Modern essentials with a clean fit, everyday comfort, and a minimal NOVA identity.</p>",
+        "content_position": "center_left",
         "text_alignment": "left",
         "overlay_color": "#000000",
-        "overlay_opacity": 20
-      }
-    },
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {
-        "enabled": true,
-        "text": "Free shipping on orders over $50!",
-        "link": "",
-        "background": "#121212",
-        "text_color": "#ffffff"
+        "overlay_opacity": 20,
+        "cta_label": "Shop New Arrivals",
+        "cta_url": "shopify://collections/new-arrivals",
+        "prioritize_image": true
       }
     },
     "shop-by-category": {
@@ -47,7 +31,11 @@
           "settings": {}
         }
       },
-      "block_order": ["category-1", "category-2", "category-3"],
+      "block_order": [
+        "category-1",
+        "category-2",
+        "category-3"
+      ],
       "settings": {
         "heading": "Shop by category"
       }
@@ -62,21 +50,38 @@
     "promo-banner": {
       "type": "nova-hero",
       "settings": {
-        "heading": "Your headline here",
+        "heading": "The NOVA Sale",
         "heading_tag": "h2",
-        "description": "<p>Add a short description for this section.</p>",
-        "content_position": "center_center",
+        "description": "<p>Selected essentials. Better prices. Shop your favorite NOVA pieces before they're gone.</p>",
+        "content_position": "center_left",
         "text_alignment": "left",
         "overlay_color": "#000000",
-        "overlay_opacity": 20
+        "overlay_opacity": 20,
+        "cta_label": "Shop the Sale",
+        "cta_url": "shopify://collections/sale"
+      }
+    },
+    "brand-story": {
+      "type": "nova-brand-story",
+      "settings": {
+        "heading": "Made for your everyday",
+        "description": "<p>Clean silhouettes. Comfortable fits. Discover the NOVA essentials you can make your own.</p>"
+      }
+    },
+    "newsletter": {
+      "type": "nova-newsletter",
+      "settings": {
+        "heading": "Stay in the loop",
+        "description": "<p>New arrivals and updates from NOVA.</p>"
       }
     }
   },
   "order": [
-    "announcement-bar",
     "nova-hero",
     "shop-by-category",
     "featured-collection",
-    "promo-banner"
+    "promo-banner",
+    "brand-story",
+    "newsletter"
   ]
 }

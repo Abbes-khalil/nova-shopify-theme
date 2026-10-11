@@ -1,0 +1,6 @@
+<div class="nova-empty">
+  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M12 22h40l-4 32H16zM22 22v-6a10 10 0 0 1 20 0v6"/></svg>
+  <h2>{{ title | escape }}</h2>
+  {% if message != blank %}<p>{{ message | escape }}</p>{% endif %}
+  <a class="nova-button nova-button--secondary" href="{{ routes.all_products_collection_url }}">{{ 'catalog.all' | t }}</a>
+</div>

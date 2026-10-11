@@ -1,0 +1,9 @@
+<nova-search class="nova-search-widget">
+  <form action="{{ routes.search_url }}" method="get" role="search" class="nova-search-form">
+    <label for="Search-{{ section.id }}">{{ 'search.label' | t }}</label>
+    <div class="nova-search-controls"><input type="search" id="Search-{{ section.id }}" name="q" value="{{ search.terms | escape }}" autocomplete="off" aria-controls="Suggestions-{{ section.id }}" aria-expanded="false" data-search-input><button class="nova-button nova-button--primary" type="submit">{{ 'search.submit' | t }}</button></div>
+    <input type="hidden" name="options[prefix]" value="last">
+  </form>
+  <div class="nova-search-suggestions" id="Suggestions-{{ section.id }}" data-search-results hidden></div>
+  <p class="nova-form-status" data-search-status role="status"></p>
+</nova-search>

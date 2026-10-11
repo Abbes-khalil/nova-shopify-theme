@@ -1,0 +1,44 @@
+{% liquid
+  assign campaign = block.settings.campaign
+  assign now = 'now' | date: '%s' | plus: 0
+  assign show_campaign = true
+  if campaign.start_date.value != blank
+    assign starts = campaign.start_date.value | date: '%s' | plus: 0
+    if now < starts
+      assign show_campaign = false
+    endif
+  endif
+  if campaign.end_date.value != blank
+    assign ends = campaign.end_date.value | date: '%s' | plus: 86399
+    if now > ends
+      assign show_campaign = false
+    endif
+  endif
+%}
+{% if campaign != blank and show_campaign %}
+  <div class="nova-campaign" {{ block.shopify_attributes }}>
+    {% assign campaign_image = campaign.background_image.value.preview_image | default: campaign.background_image.value %}
+    {% if campaign_image != blank %}{{ campaign_image | image_url: width: 1600 | image_tag: widths: '480, 750, 1100, 1600', sizes: '100vw', loading: 'lazy', alt: campaign_image.alt }}{% endif %}
+    <div><p class="nova-eyebrow">{{ 'enriched.campaign' | t }}</p><h2>{{ campaign.title.value | escape }}</h2>{% if campaign.description != blank %}<div class="nova-richtext">{{ campaign.description | metafield_tag }}</div>{% endif %}{% if campaign.cta_link.value != blank and campaign.cta_text.value != blank %}<a class="nova-button nova-button--secondary" href="{{ campaign.cta_link.value | escape }}">{{ campaign.cta_text.value | escape }}</a>{% endif %}</div>
+  </div>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "t:general.campaign_banner",
+  "settings": [
+    {
+      "type": "metaobject",
+      "id": "campaign",
+      "label": "t:labels.campaign",
+      "metaobject_type": "campaign"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.campaign_banner"
+    }
+  ]
+}
+{% endschema %}

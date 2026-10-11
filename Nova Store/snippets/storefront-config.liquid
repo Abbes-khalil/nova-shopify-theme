@@ -1,0 +1,7 @@
+<script>
+  window.Nova = {
+    routes: { cart: {{ routes.cart_url | json }}, add: {{ routes.cart_add_url | json }}, change: {{ routes.cart_change_url | json }}, update: {{ routes.cart_update_url | json }}, search: {{ routes.predictive_search_url | json }} },
+    strings: {
+    unavailable: {{ 'products.unavailable' | t | json }}, adding: {{ 'products.adding' | t | json }}, added: {{ 'products.added' | t | json }}, addError: {{ 'products.add_error' | t | json }}, cartError: {{ 'cart.error' | t | json }}, quantityError: {{ 'cart.quantity_error' | t | json }}, priceError: {{ 'catalog.price_error' | t | json }}, refreshError: {{ 'cart.refresh_error' | t | json }}, updated: {{ 'cart.updated' | t: count: '__COUNT__' | json }}, cartCount: {{ 'navigation.cart_count' | t: count: '__COUNT__' | json }}, copied: {{ 'products.copied' | t | json }}, searchLoading: {{ 'search.loading' | t | json }}, searchError: {{ 'search.error' | t | json }} }
+  };
+</script>

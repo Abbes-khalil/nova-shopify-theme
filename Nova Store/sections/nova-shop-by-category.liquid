@@ -3,7 +3,7 @@
   merchant-selected collection - see blocks/category-card.liquid.
 {% endcomment %}
 
-<div class="shop-by-category">
+<div class="shop-by-category nova-section">
   {% if section.settings.heading != blank %}
     <h2 class="shop-by-category__heading">{{ section.settings.heading }}</h2>
   {% endif %}
@@ -28,6 +28,7 @@
   }
 {% endstylesheet %}
 
+
 {% schema %}
 {
   "name": "t:general.shop_by_category",
@@ -49,9 +50,15 @@
     {
       "name": "t:general.shop_by_category",
       "blocks": [
-        { "type": "category-card" },
-        { "type": "category-card" },
-        { "type": "category-card" }
+        {
+          "type": "category-card"
+        },
+        {
+          "type": "category-card"
+        },
+        {
+          "type": "category-card"
+        }
       ]
     }
   ]

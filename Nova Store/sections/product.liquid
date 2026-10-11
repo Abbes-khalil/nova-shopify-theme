@@ -1,52 +1,98 @@
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
+{% assign selected_variant = product.selected_or_first_available_variant %}
+{% assign selected_media = selected_variant.featured_media | default: product.featured_media %}
+<nova-product class="nova-section nova-product" data-section-id="{{ section.id }}" data-product-url="{{ product.url }}" data-selected-media-id="{{ selected_media.id }}">
+  <div class="nova-product-gallery nova-product-gallery--{{ section.settings.gallery_layout }}" data-gallery>
+    {% for media in product.media %}
+      {% assign image_loading = 'lazy' %}{% if media.id == selected_media.id %}{% assign image_loading = 'eager' %}{% endif %}
+      <div class="nova-product-media" id="Media-{{ section.id }}-{{ media.id }}" data-media-id="{{ media.id }}" tabindex="-1">{% render 'product-media', media: media, loading: image_loading %}</div>
+    {% else %}<div class="nova-product-media nova-no-image">{{ 'products.no_image' | t }}</div>{% endfor %}
+    {% if product.media.size > 1 and section.settings.gallery_layout == 'thumbnails' %}
+      <nav class="nova-thumbnails" aria-label="{{ 'products.media' | t }}">
+        {% for media in product.media %}<a href="#Media-{{ section.id }}-{{ media.id }}" data-media-target="{{ media.id }}" aria-label="{{ 'products.view_media' | t: number: forloop.index }}">{{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', width: 80, height: 100 }}</a>{% endfor %}
+      </nav>
+    {% endif %}
+  </div>
+  <div class="nova-product-info">
+    {% if section.settings.show_vendor %}<p class="nova-eyebrow">{{ product.vendor | escape }}</p>{% endif %}
+    <h1 class="nova-page-title">{{ product.title | escape }}</h1>
+    {% render 'product-purchase', product: product, section: section %}
+    <noscript><form action="{{ product.url }}" method="get"><p>{{ 'products.variant_help' | t }}</p><label for="NoJsVariant-{{ section.id }}">{{ 'products.variant' | t }}</label><select id="NoJsVariant-{{ section.id }}" name="variant">{% for variant in product.variants %}<option value="{{ variant.id }}"{% if variant.id == selected_variant.id %} selected{% endif %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.sold_out' | t }}{% endunless %}</option>{% endfor %}</select><button type="submit" class="nova-button nova-button--secondary">{{ 'products.update_variant' | t }}</button></form></noscript>
+    {% if product.description != blank %}<details class="nova-product-detail" open><summary>{{ 'products.description' | t }}</summary><div class="nova-richtext">{{ product.description }}</div></details>{% endif %}
+    {% if section.settings.shipping_text != blank %}<details class="nova-product-detail"><summary>{{ 'products.shipping' | t }}</summary><div class="nova-richtext">{{ section.settings.shipping_text }}</div></details>{% endif %}
+    {% if section.settings.returns_text != blank %}<details class="nova-product-detail"><summary>{{ 'products.returns' | t }}</summary><div class="nova-richtext">{{ section.settings.returns_text }}</div></details>{% endif %}
+    <div data-enriched-content>{% content_for 'blocks' %}</div>
+    {% if section.settings.show_share %}<button class="nova-text-link nova-share" type="button" data-share hidden>{{ 'products.share' | t }}</button><p data-share-status role="status"></p>{% endif %}
+  </div>
+  <p class="visually-hidden" data-variant-status role="status"></p>
+</nova-product>
+<script src="{{ 'product.js' | asset_url }}" defer></script>
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
-
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
-
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
-
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
 
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
   "disabled_on": {
-    "groups": ["header", "footer"]
-  }
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "t:labels.show_quantity",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "t:labels.show_vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "t:labels.show_share",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "t:labels.show_dynamic_checkout",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "t:labels.gallery_layout",
+      "options": [
+        {
+          "value": "thumbnails",
+          "label": "t:nova_editor.product_settings_4_options_0_label"
+        },
+        {
+          "value": "stacked",
+          "label": "t:nova_editor.product_settings_4_options_1_label"
+        }
+      ],
+      "default": "thumbnails"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_text",
+      "label": "t:labels.shipping_text"
+    },
+    {
+      "type": "richtext",
+      "id": "returns_text",
+      "label": "t:labels.returns_text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@theme"
+    }
+  ]
 }
 {% endschema %}

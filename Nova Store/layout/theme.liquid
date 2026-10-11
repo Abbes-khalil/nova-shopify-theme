@@ -19,20 +19,26 @@
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'commerce.css' | asset_url | stylesheet_tag }}
+    {{ 'polish.css' | asset_url | stylesheet_tag }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
+    {% render 'storefront-config' %}
     {{ content_for_header }}
   </head>
 
   <body>
       
 
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="MainContent" tabindex="-1">{{ content_for_layout }}</main>
 
+    {% section 'cart-drawer' %}
     {% sections 'footer-group' %}
+    <script src="{{ 'cart.js' | asset_url }}" defer></script>
   </body>
 </html>

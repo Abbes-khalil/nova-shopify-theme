@@ -12,6 +12,16 @@
     assign has_distinct_mobile_image = true
   endif
   assign hero_alt = desktop_image.alt | default: section.settings.heading | escape
+  assign image_loading = 'lazy'
+  assign image_priority = 'auto'
+  if section.index == 1
+    assign image_loading = 'eager'
+    assign image_priority = 'high'
+  endif
+  if section.settings.prioritize_image
+    assign image_loading = 'eager'
+    assign image_priority = 'high'
+  endif
   assign heading_tag = section.settings.heading_tag | default: 'h1'
 %}
 
@@ -34,8 +44,8 @@
         | image_tag:
           widths: '750, 1100, 1500, 2000, 2560, 3200',
           sizes: '100vw',
-          loading: 'eager',
-          fetchpriority: 'high',
+          loading: image_loading,
+          fetchpriority: image_priority,
           alt: hero_alt,
           class: 'nova-hero__image'
       }}
@@ -43,7 +53,7 @@
     <div class="nova-hero__overlay"></div>
   {% endif %}
 
-  <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }};">
+  <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }}; --nova-hero-justify: {% case section.settings.text_alignment %}{% when 'center' %}center{% when 'right' %}end{% else %}start{% endcase %};">
     {% if section.settings.heading != blank %}
       <{{ heading_tag }} class="nova-hero__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
     {% endif %}
@@ -97,9 +107,9 @@
   .nova-hero__content {
     position: relative;
     display: grid;
-    justify-items: start;
+    justify-items: var(--nova-hero-justify);
     gap: 1rem;
-    max-width: 34rem;
+    max-width: 42rem;
     padding: clamp(1.5rem, 4vw, 3rem);
     text-align: var(--nova-hero-text-align);
   }
@@ -116,7 +126,8 @@
 
   .nova-hero__heading {
     font-family: var(--font-primary--family);
-    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    letter-spacing: -.04em;
     line-height: 1.1;
   }
 
@@ -142,6 +153,8 @@
   }
 {% endstylesheet %}
 
+
+
 {% schema %}
 {
   "name": "t:general.hero",
@@ -161,7 +174,7 @@
       "type": "text",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "Your headline here"
+      "default": "Built for Everyday Movement"
     },
     {
       "type": "select",
@@ -170,15 +183,21 @@
       "info": "t:labels.heading_tag_info",
       "default": "h1",
       "options": [
-        { "value": "h1", "label": "t:options.heading_tag.h1" },
-        { "value": "h2", "label": "t:options.heading_tag.h2" }
+        {
+          "value": "h1",
+          "label": "t:options.heading_tag.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.heading_tag.h2"
+        }
       ]
     },
     {
       "type": "richtext",
       "id": "description",
       "label": "t:labels.description",
-      "default": "<p>Add a short description for this section.</p>"
+      "default": "<p>Modern essentials with a clean fit, everyday comfort, and a minimal NOVA identity.</p>"
     },
     {
       "type": "text",
@@ -196,15 +215,42 @@
       "label": "t:labels.content_position",
       "default": "center_center",
       "options": [
-        { "value": "top_left", "label": "t:options.content_position.top_left" },
-        { "value": "top_center", "label": "t:options.content_position.top_center" },
-        { "value": "top_right", "label": "t:options.content_position.top_right" },
-        { "value": "center_left", "label": "t:options.content_position.center_left" },
-        { "value": "center_center", "label": "t:options.content_position.center_center" },
-        { "value": "center_right", "label": "t:options.content_position.center_right" },
-        { "value": "bottom_left", "label": "t:options.content_position.bottom_left" },
-        { "value": "bottom_center", "label": "t:options.content_position.bottom_center" },
-        { "value": "bottom_right", "label": "t:options.content_position.bottom_right" }
+        {
+          "value": "top_left",
+          "label": "t:options.content_position.top_left"
+        },
+        {
+          "value": "top_center",
+          "label": "t:options.content_position.top_center"
+        },
+        {
+          "value": "top_right",
+          "label": "t:options.content_position.top_right"
+        },
+        {
+          "value": "center_left",
+          "label": "t:options.content_position.center_left"
+        },
+        {
+          "value": "center_center",
+          "label": "t:options.content_position.center_center"
+        },
+        {
+          "value": "center_right",
+          "label": "t:options.content_position.center_right"
+        },
+        {
+          "value": "bottom_left",
+          "label": "t:options.content_position.bottom_left"
+        },
+        {
+          "value": "bottom_center",
+          "label": "t:options.content_position.bottom_center"
+        },
+        {
+          "value": "bottom_right",
+          "label": "t:options.content_position.bottom_right"
+        }
       ]
     },
     {
@@ -228,14 +274,21 @@
       "step": 5,
       "unit": "%",
       "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "prioritize_image",
+      "label": "t:nova_editor.nova_hero_settings_11_label",
+      "info": "t:nova_editor.nova_hero_settings_11_info",
+      "default": false
     }
   ],
   "presets": [
     {
       "name": "t:general.hero",
       "settings": {
-        "heading": "Your headline here",
-        "description": "<p>Add a short description for this section.</p>",
+        "heading": "Built for Everyday Movement",
+        "description": "<p>Modern essentials with a clean fit, everyday comfort, and a minimal NOVA identity.</p>",
         "content_position": "center_center",
         "text_alignment": "left",
         "overlay_color": "#000000",

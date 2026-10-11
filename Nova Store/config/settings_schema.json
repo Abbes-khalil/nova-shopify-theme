@@ -1,9 +1,9 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Skeleton",
-    "theme_version": "0.1.0",
-    "theme_author": "Shopify",
+    "theme_name": "NOVA",
+    "theme_version": "0.3.0",
+    "theme_author": "Khalil Abbes",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
@@ -49,7 +49,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:labels.page_margin",
-        "default": 20
+        "default": 48
       }
     ]
   },
@@ -59,7 +59,7 @@
       {
         "type": "color",
         "id": "brand_color",
-        "default": "#121212",
+        "default": "#171717",
         "label": "t:labels.brand"
       },
       {
@@ -77,6 +77,73 @@
         "unit": "px",
         "label": "t:labels.input_corner_radius",
         "default": 4
+      },
+      {
+        "type": "color",
+        "id": "surface_color",
+        "default": "#F5F5F5",
+        "label": "t:nova_editor.global_3_settings_3_label"
+      },
+      {
+        "type": "color",
+        "id": "secondary_text_color",
+        "default": "#737373",
+        "label": "t:nova_editor.global_3_settings_4_label"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "default": "#E5E5E5",
+        "label": "t:nova_editor.global_3_settings_5_label"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "default": "#171717",
+        "label": "t:nova_editor.global_3_settings_6_label"
+      },
+      {
+        "type": "color",
+        "id": "accent_foreground_color",
+        "default": "#FFFFFF",
+        "label": "t:nova_editor.global_3_settings_7_label"
+      },
+      {
+        "type": "color",
+        "id": "success_color",
+        "default": "#166534",
+        "label": "t:nova_editor.global_3_settings_8_label"
+      },
+      {
+        "type": "color",
+        "id": "error_color",
+        "default": "#B91C1C",
+        "label": "t:nova_editor.global_3_settings_9_label"
+      }
+    ]
+  },
+  {
+    "name": "t:nova_editor.global_4_name",
+    "settings": [
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "min": 32,
+        "max": 96,
+        "step": 8,
+        "unit": "px",
+        "default": 64,
+        "label": "t:nova_editor.global_4_settings_0_label"
+      },
+      {
+        "type": "range",
+        "id": "button_corner_radius",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 0,
+        "label": "t:nova_editor.global_4_settings_1_label"
       }
     ]
   }

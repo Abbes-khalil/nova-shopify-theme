@@ -1,0 +1,199 @@
+.nova-story {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(2rem,5vw,4rem);
+  align-items:center
+}
+.nova-story:not(:has(>img)) {
+  grid-template-columns:1fr;
+  max-width:70ch
+}
+.nova-story img {
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover
+}
+.nova-story h2,.featured-collection__heading,.shop-by-category__heading,.nova-newsletter h2 {
+  font-size:clamp(2rem,3vw,2.5rem);
+  line-height:1.15;
+  letter-spacing:-.035em
+}
+.nova-story .nova-richtext {
+  margin-block:1.5rem
+}
+.featured-collection__grid {
+  grid-template-columns:repeat(4,minmax(0,1fr))
+}
+.shop-by-category__grid {
+  grid-template-columns:repeat(3,minmax(0,1fr))
+}
+.category-card__image img {
+  aspect-ratio:4/5;
+  object-fit:cover
+}
+.nova-site-header {
+  min-width:0
+}
+.nova-site-header :is(button,a) {
+  min-height:44px
+}
+.nova-site-header button {
+  min-width:44px
+}
+.nova-hero__cta {
+  min-height:44px;
+  transition:opacity 160ms ease
+}
+.nova-hero__cta:hover {
+  opacity:.85
+}
+.nova-product-card__media img {
+  transition:opacity 160ms ease
+}
+.nova-product-card__media:hover img {
+  opacity:.9
+}
+.nova-form-status[data-error="true"] {
+  color:var(--color-error)
+}
+@media(min-width:750px) and (max-width:1023px) {
+  .shopify-section {
+    --page-margin:min(32px,var(--nova-desktop-margin))
+  }
+}
+@media(max-width:989px) {
+  .featured-collection__grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))
+  }
+}
+@media(max-width:749px) {
+  .nova-story {
+    grid-template-columns:1fr
+  }
+  .shop-by-category__grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))
+  }
+  .nova-site-header {
+    gap:.5rem
+  }
+  .header__icons {
+    gap:.35rem
+  }
+  .header__logo img {
+    max-width:min(var(--header-logo-max-width),28vw)
+  }
+  .header__title {
+    font-size:clamp(1rem,4vw,1.5rem)
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto!important;
+    transition:none!important
+  }
+}
+.nova-filter-dialog {
+  margin:0 0 0 auto;
+  width:min(100%,32rem);
+  max-width:100%;
+  height:100dvh;
+  max-height:100dvh;
+  border:0;
+  padding:1.25rem;
+  overflow:auto
+}
+.nova-filter-dialog::backdrop {
+  background:rgb(0 0 0/.4)
+}
+.nova-filter-dialog__head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.5rem
+}
+.nova-filter-dialog .nova-catalog-toolbar {
+  flex-direction:column;
+  align-items:start
+}
+.nova-filter-dialog .nova-filters__groups {
+  grid-template-columns:1fr
+}
+.nova-filter-dialog h2 {
+  font-size:1.5rem
+}
+@media(max-width:599px) {
+  .nova-product-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:1.5rem .75rem
+  }
+  .nova-product-card__title {
+    font-size:.875rem
+  }
+}
+.nova-nav-disclosure {
+  position:relative
+}
+.nova-nav-disclosure summary {
+  cursor:pointer;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:.5rem
+}
+.nova-nav-disclosure summary::after {
+  content:'+';
+  font-size:1rem
+}
+.nova-nav-disclosure[open] summary::after {
+  content:'−'
+}
+.nova-nav-children {
+  position:absolute;
+  z-index:20;
+  background:var(--color-background);
+  border:1px solid var(--color-border);
+  padding:1rem;
+  min-width:14rem;
+  box-shadow:0 8px 20px rgb(0 0 0/.08)
+}
+.nova-nav-children a {
+  justify-content:start
+}
+.nova-nav-grandchild {
+  padding-inline-start:1rem
+}
+.mobile-nav__menu .nova-nav-children,.nova-nojs-navigation .nova-nav-children {
+  position:static;
+  box-shadow:none;
+  min-width:0
+}
+.nova-nojs-navigation {
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  padding-block:1rem
+}
+.nova-header__count {
+  font-size:.75rem
+}
+.nova-site-header .nova-header__cart sup {
+  left:auto;
+  right:-.35rem;
+  top:-.1rem;
+  max-width:none
+}
+.nova-sale-label {
+  color:var(--color-error);
+  font-size:.875rem;
+  font-weight:600
+}
+.nova-newsletter {
+  max-width:50rem
+}
+.nova-newsletter-section {
+  border-block-start:1px solid var(--color-border)
+}
+
+.nova-hero h2.nova-hero__heading { font-size: clamp(2rem, 3vw, 2.5rem); }
+.nova-footer-policies { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }

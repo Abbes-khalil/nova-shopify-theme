@@ -6,6 +6,7 @@
   {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
   :root {
+    --icon-stroke-width: 1.5;
     --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
     --font-primary--style: {{ settings.type_primary_font.style }};
     --font-primary--weight: {{ settings.type_primary_font.weight }};
@@ -14,6 +15,20 @@
     --color-background: {{ settings.background_color }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
     --color-brand: {{ settings.brand_color }};
+    --color-foreground: {{ settings.brand_color }};
+    --color-surface: {{ settings.surface_color }};
+    --color-muted: {{ settings.secondary_text_color }};
+    --color-border: {{ settings.border_color }};
+    --color-accent: {{ settings.accent_color }};
+    --color-accent-foreground: {{ settings.accent_foreground_color }};
+    --color-success: {{ settings.success_color }};
+    --color-error: {{ settings.error_color }};
+    --section-spacing: {{ settings.section_spacing }}px;
+    --style-border-radius-buttons: {{ settings.button_corner_radius }}px;
+    --nova-desktop-margin: {{ settings.min_page_margin }}px;
+    --space-1: .5rem; --space-2: 1rem; --space-3: 1.5rem; --space-4: 2rem;
+    --space-4px: .25rem; --space-8px: .5rem; --space-12px: .75rem; --space-16px: 1rem;
+    --space-24px: 1.5rem; --space-32px: 2rem; --space-48px: 3rem; --space-64px: 4rem; --space-96px: 6rem;
 
   }
 {% endstyle %}
