@@ -12,7 +12,7 @@
   assign card_image = block.settings.custom_image | default: collection.featured_image
 %}
 
-{% if collection %}
+{% if collection != blank %}
   <a
     href="{{ collection.url }}"
     class="category-card"
@@ -23,7 +23,7 @@
         class: 'category-card__image',
         image: card_image,
         width: 600,
-        height: 600,
+        height: 750,
         crop: 'center'
       %}
     {% endif %}

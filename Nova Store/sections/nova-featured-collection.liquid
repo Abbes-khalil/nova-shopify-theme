@@ -8,8 +8,8 @@
   assign collection = section.settings.collection
 %}
 
-<div class="featured-collection">
-  {% if collection %}
+<div class="featured-collection nova-section">
+  {% if collection != blank %}
     <div class="featured-collection__header">
       {% if section.settings.heading != blank %}
         <h2 class="featured-collection__heading">{{ section.settings.heading }}</h2>
@@ -25,7 +25,7 @@
       {% endfor %}
     </div>
   {% else %}
-    <p class="featured-collection__empty">{{ 'featured_collection.no_collection' | t }}</p>
+    {% if request.design_mode %}<p class="featured-collection__empty">{{ 'featured_collection.no_collection' | t }}</p>{% endif %}
   {% endif %}
 </div>
 

@@ -1,119 +1,45 @@
 {% doc %}
-  Renders a product card linking to the product's URL, with a responsive
-  lazy-loaded image, title, formatted price (with sale/compare-at price when
-  applicable) and a sold-out badge when the product has no available
-  inventory.
-
-  @param {product} product - The product to render
-
-  @example
-  {% render 'product-card', product: product %}
+  Shared product card for homepage, collection, search and recommendations.
+  @param {product} product - Shopify product
+  @param {boolean} [show_quick_add] - Enable single-variant quick add
 {% enddoc %}
-
 {% liquid
-  assign on_sale = false
-  if product.compare_at_price > product.price
-    assign on_sale = true
+  assign card_variant = product.selected_or_first_available_variant
+  assign card_on_sale = false
+  if product.price_varies == false and product.compare_at_price_varies == false
+    if card_variant.compare_at_price > card_variant.price
+      assign card_on_sale = true
+    endif
   endif
-  assign image_alt = product.featured_image.alt | default: product.title | escape
+  assign card_alt = product.featured_image.alt | default: product.title
 %}
-
-<a href="{{ product.url }}" class="product-card">
-  <div class="product-card__media">
-    {% if product.featured_image %}
-      {{
-        product.featured_image
-        | image_url: width: 1200
-        | image_tag:
-          widths: '200, 400, 600, 800, 1200',
-          sizes: '(min-width: 990px) 25vw, 50vw',
-          loading: 'lazy',
-          alt: image_alt,
-          class: 'product-card__image'
-      }}
-    {% endif %}
-
-    {% unless product.available %}
-      <span class="product-card__badge product-card__badge--sold-out">{{ 'products.sold_out' | t }}</span>
-    {% else %}
-      {% if on_sale %}
-        <span class="product-card__badge product-card__badge--sale">{{ 'products.sale' | t }}</span>
+{% comment %}Shared product card. Quick add only for a single, available variant.{% endcomment %}
+{% if product != blank %}
+  <article class="nova-product-card">
+    <a class="nova-product-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      {% if product.featured_image != blank %}
+        {{ product.featured_image | image_url: width: 1000 | image_tag: widths: '240, 360, 540, 750, 1000', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: card_alt }}
+      {% else %}<span class="nova-no-image">{{ 'products.no_image' | t }}</span>{% endif %}
+      {% if product.available == false %}<span class="nova-badge">{{ 'products.sold_out' | t }}</span>
+      {% elsif card_on_sale %}<span class="nova-badge nova-badge--sale">{{ 'products.sale' | t }}</span>{% endif %}
+    </a>
+    <div class="nova-product-card__info">
+      <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      <p class="nova-price">
+        {% if product.price_varies %}{% assign formatted_price = product.price | money %}{{ 'products.from' | t: price: formatted_price }}
+        {% else %}{{ product.price | money }}{% endif %}
+        {% if card_on_sale %}<s><span class="visually-hidden">{{ 'products.regular_price' | t }}</span>{{ card_variant.compare_at_price | money }}</s>{% endif %}
+      </p>
+      {% if show_quick_add %}
+        {% if product.has_only_default_variant and product.available and product.requires_selling_plan == false %}
+          {% form 'product', product, class: 'nova-quick-add', data-nova-add: '' %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="{{ product.selected_or_first_available_variant.quantity_rule.min }}">
+            <button class="nova-button nova-button--secondary" type="submit">{{ 'products.add_to_cart' | t }}</button>
+            <p class="nova-form-status" role="status" data-form-status></p>
+          {% endform %}
+        {% else %}<a class="nova-text-link" href="{{ product.url }}">{{ 'products.choose_options' | t }}</a>{% endif %}
       {% endif %}
-    {% endunless %}
-  </div>
-
-  <div class="product-card__content">
-    <p class="product-card__title">{{ product.title }}</p>
-
-    <p class="product-card__price-group">
-      {% if on_sale %}
-        <span class="product-card__price product-card__price--sale">{{ product.price | money }}</span>
-        <s class="product-card__price product-card__price--compare">{{ product.compare_at_price | money }}</s>
-      {% else %}
-        <span class="product-card__price">{{ product.price | money }}</span>
-      {% endif %}
-    </p>
-  </div>
-</a>
-
-{% stylesheet %}
-  .product-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    color: var(--color-foreground);
-    text-decoration: none;
-  }
-
-  .product-card__media {
-    position: relative;
-  }
-
-  .product-card__image {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: var(--style-border-radius-inputs);
-  }
-
-  .product-card__badge {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    padding: 0.25em 0.6em;
-    border-radius: var(--style-border-radius-inputs);
-    background-color: var(--color-foreground);
-    color: var(--color-background);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .product-card__title {
-    font-family: var(--font-primary--family);
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  .product-card__price-group {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .product-card__price {
-    opacity: 0.8;
-  }
-
-  .product-card__price--sale {
-    color: var(--color-foreground);
-    opacity: 1;
-    font-weight: 600;
-  }
-
-  .product-card__price--compare {
-    opacity: 0.6;
-  }
-{% endstylesheet %}
+    </div>
+  </article>
+{% endif %}

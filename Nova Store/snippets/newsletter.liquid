@@ -1,0 +1,11 @@
+{% capture newsletter_id %}Newsletter-{{ section.id }}{% endcapture %}
+<div class="nova-newsletter">
+  <h2>{% if section.settings.heading != blank %}{{ section.settings.heading | escape }}{% else %}{{ 'newsletter.heading' | t }}{% endif %}</h2>{% if section.settings.description != blank %}<div class="nova-richtext">{{ section.settings.description }}</div>{% else %}<p>{{ 'newsletter.description' | t }}</p>{% endif %}
+  {% form 'customer', id: newsletter_id %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    {% if form.posted_successfully? %}<p role="status">{{ 'newsletter.success' | t }}</p>{% endif %}
+    {% if form.errors %}<div role="alert">{{ form.errors | default_errors }}</div>{% endif %}
+    <label for="NewsletterEmail-{{ section.id }}">{{ 'newsletter.email' | t }}</label><div class="nova-newsletter__controls"><input type="email" id="NewsletterEmail-{{ section.id }}" name="contact[email]" required autocomplete="email" value="{{ form.email | escape }}"><button type="submit" class="nova-button nova-button--primary">{{ 'newsletter.submit' | t }}</button></div>
+    <label class="nova-checkbox"><input type="checkbox" required><span>{{ 'newsletter.consent' | t }}</span></label>
+  {% endform %}
+</div>

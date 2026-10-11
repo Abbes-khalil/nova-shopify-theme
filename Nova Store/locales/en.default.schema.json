@@ -35,7 +35,17 @@
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "button": "Button",
+    "nova_content": "NOVA content",
+    "announcement_bar": "Announcement bar",
+    "collection_cards": "Collection cards",
+    "cart_drawer": "Cart drawer",
+    "product_tabs": "Product metafields",
+    "lookbook": "Lookbook",
+    "campaign_banner": "Campaign banner",
+    "predictive_search": "Predictive search",
+    "product_recommendations": "Product recommendations"
   },
   "labels": {
     "alignment": "Alignment",
@@ -69,7 +79,45 @@
     "custom_image_info": "Overrides the collection image when set.",
     "products_to_show": "Products to show",
     "heading_tag": "Heading tag",
-    "heading_tag_info": "Use Heading 1 for the main page heading. If you add this section again lower on the page (e.g. as a promo banner), set it to Heading 2 to avoid multiple H1s."
+    "heading_tag_info": "Use Heading 1 for the main page heading. If you add this section again lower on the page (e.g. as a promo banner), set it to Heading 2 to avoid multiple H1s.",
+    "surface": "Surface",
+    "accent": "Accent",
+    "accent_foreground": "Text on accent",
+    "section_spacing": "Section spacing",
+    "button_corner_radius": "Button corner radius",
+    "eyebrow": "Eyebrow",
+    "heading_level": "Heading level",
+    "color_style": "Color style",
+    "button_label": "Button label",
+    "button_link": "Button link",
+    "button_style": "Button style",
+    "use_catalog": "Use catalogue when link is empty",
+    "logo": "Logo",
+    "menu_heading": "Menu heading",
+    "show_policies": "Show store policies",
+    "show_powered_by": "Show Powered by Shopify",
+    "background_image": "Background image",
+    "subtext": "Description",
+    "cta_link": "Button link",
+    "content_align": "Content alignment",
+    "image": "Image",
+    "title_override": "Title override",
+    "product_limit": "Product limit",
+    "show_quick_add": "Show quick add",
+    "show_image": "Show collection image",
+    "show_filters": "Show filters",
+    "products_per_page": "Products per page",
+    "show_quantity": "Show quantity selector",
+    "show_vendor": "Show vendor",
+    "show_share": "Show share button",
+    "show_dynamic_checkout": "Show accelerated checkout",
+    "gallery_layout": "Gallery layout",
+    "shipping_text": "Shipping information",
+    "returns_text": "Returns information",
+    "lookbook": "Lookbook entry",
+    "campaign": "Campaign entry",
+    "show_newsletter": "Show newsletter signup",
+    "results_per_page": "Results per page"
   },
   "options": {
     "alignment": {
@@ -108,6 +156,24 @@
     "heading_tag": {
       "h1": "Heading 1",
       "h2": "Heading 2"
+    },
+    "color_style": {
+      "standard": "Standard",
+      "inverse": "Inverse"
+    },
+    "button_style": {
+      "primary": "Primary",
+      "secondary": "Secondary"
     }
+  },
+  "defaults": {
+    "heading": "Made for everyday movement.",
+    "button_label": "Explore the collection",
+    "announcement": "NOVA / Everyday movement.",
+    "footer_heading": "Explore",
+    "hero_heading": "Made for everyday movement.",
+    "collections_heading": "Find your everyday.",
+    "cta_label": "Explore the collection",
+    "recommendations_heading": "Complete your rotation."
   }
 }

@@ -1,0 +1,25 @@
+<section class="nova-section nova-newsletter-section">{% render 'newsletter', section: section %}</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stay in the loop"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
