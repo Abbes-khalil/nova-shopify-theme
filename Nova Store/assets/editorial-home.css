@@ -98,12 +98,16 @@
 .nova-editorial-home .footer__links { align-items: start; text-align: left; font-size: .8rem; }
 .nova-editorial-home .footer__bottom { font-size: .7rem; }
 @media (max-width: 1023px) {
-  .nova-editorial-home .header__menu { gap: .75rem; }
+  .nova-editorial-home .header__menu { display: none; }
+  .nova-editorial-home .header__nav-toggle { display: flex; order: -1; }
   .nova-editorial-home .featured-collection__grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .nova-editorial-home .nova-product-card__info { grid-template-columns: 1fr; }
   .nova-editorial-home .nova-price { justify-content: start; }
 }
 @media (max-width: 749px) {
+  .nova-editorial-home .header__title { font-size: clamp(1.25rem,5vw,1.75rem); max-width: 28vw; overflow: hidden; }
+  .nova-editorial-home .header__title a { justify-content: start; }
+  .nova-editorial-home .nova-site-header { gap: .5rem; }
   .nova-editorial-home .nova-hero--campaign .nova-hero__content { padding: 7rem 20px 2rem; }
   .nova-editorial-home .nova-hero--campaign .nova-hero__heading { font-size: clamp(3.5rem,18vw,8rem); }
   .nova-editorial-home .shop-by-category__grid { grid-template-columns: minmax(0,1fr); gap: 2.5rem; }
