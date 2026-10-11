@@ -146,5 +146,46 @@
         "label": "t:nova_editor.global_4_settings_1_label"
       }
     ]
+  },
+  {
+    "name": "t:editorial.palette",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "editorial_font",
+        "label": "t:editorial.display_font",
+        "default": "oswald_n7"
+      },
+      {
+        "type": "color",
+        "id": "editorial_ink",
+        "label": "t:editorial.ink",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "editorial_bone",
+        "label": "t:editorial.bone",
+        "default": "#F4F1EA"
+      },
+      {
+        "type": "color",
+        "id": "editorial_warm",
+        "label": "t:editorial.warm",
+        "default": "#D8D5CE"
+      },
+      {
+        "type": "color",
+        "id": "editorial_muted",
+        "label": "t:editorial.muted",
+        "default": "#777777"
+      },
+      {
+        "type": "color",
+        "id": "editorial_accent",
+        "label": "t:editorial.accent",
+        "default": "#D7FF3F"
+      }
+    ]
   }
 ]

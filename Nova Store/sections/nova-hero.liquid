@@ -25,7 +25,7 @@
   assign heading_tag = section.settings.heading_tag | default: 'h1'
 %}
 
-<div class="nova-hero full-width" style="--nova-hero-overlay-color: {{ section.settings.overlay_color }}; --nova-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+<div class="nova-hero full-width nova-hero--{{ section.settings.composition }}" style="--nova-hero-overlay-color: {{ section.settings.overlay_color }}; --nova-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
   {% if desktop_image %}
     <picture class="nova-hero__media">
       {% if has_distinct_mobile_image %}
@@ -54,6 +54,7 @@
   {% endif %}
 
   <div class="nova-hero__content nova-hero__content--{{ section.settings.content_position }}" style="--nova-hero-text-align: {{ section.settings.text_alignment }}; --nova-hero-justify: {% case section.settings.text_alignment %}{% when 'center' %}center{% when 'right' %}end{% else %}start{% endcase %};">
+    {% if section.settings.eyebrow != blank %}<p class="nova-editorial-label">{{ section.settings.eyebrow | escape }}</p>{% endif %}
     {% if section.settings.heading != blank %}
       <{{ heading_tag }} class="nova-hero__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
     {% endif %}
@@ -281,6 +282,31 @@
       "label": "t:nova_editor.nova_hero_settings_11_label",
       "info": "t:nova_editor.nova_hero_settings_11_info",
       "default": false
+    },
+    {
+      "type": "select",
+      "id": "composition",
+      "label": "t:editorial.mode",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "t:editorial.standard"
+        },
+        {
+          "value": "campaign",
+          "label": "t:editorial.campaign"
+        },
+        {
+          "value": "split",
+          "label": "t:editorial.split"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editorial.eyebrow"
     }
   ],
   "presets": [

@@ -22,6 +22,21 @@
     {{ 'commerce.css' | asset_url | stylesheet_tag }}
     {{ 'polish.css' | asset_url | stylesheet_tag }}
 
+    {% if request.page_type == 'index' %}
+      {% style %}
+        {{ settings.editorial_font | font_face: font_display: 'swap' }}
+        .nova-editorial-home {
+          --editorial-display: {{ settings.editorial_font.family }}, {{ settings.editorial_font.fallback_families }};
+          --editorial-ink: {{ settings.editorial_ink }};
+          --editorial-bone: {{ settings.editorial_bone }};
+          --editorial-warm: {{ settings.editorial_warm }};
+          --editorial-muted: {{ settings.editorial_muted }};
+          --editorial-accent: {{ settings.editorial_accent }};
+        }
+      {% endstyle %}
+      {{ 'editorial-home.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'editorial-home.js' | asset_url }}" defer></script>
+    {% endif %}
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
@@ -29,7 +44,7 @@
     {{ content_for_header }}
   </head>
 
-  <body>
+  <body{% if request.page_type == 'index' %} class="nova-editorial-home"{% endif %}>
       
 
     <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
