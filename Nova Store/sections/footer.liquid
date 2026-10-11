@@ -1,4 +1,4 @@
-<footer>
+<footer class="nova-site-footer">
   <div class="footer__top">
     <div class="footer__brand" style="--footer-logo-max-width: {{ section.settings.logo_max_width }}px;">
       {%- if section.settings.logo != blank -%}
@@ -47,11 +47,11 @@
 </footer>
 
 {% stylesheet %}
-  footer {
+  .nova-site-footer {
     margin-top: 3rem;
     padding-top: 2rem;
   }
-  footer a {
+  .nova-site-footer a {
     text-decoration: none;
     color: var(--color-foreground);
   }

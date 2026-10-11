@@ -1,4 +1,4 @@
-<header>
+<header class="nova-site-header">
   <button
     type="button"
     class="header__nav-toggle"
@@ -86,14 +86,14 @@
 </dialog>
 
 {% stylesheet %}
-  header {
+  .nova-site-header {
     height: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
   }
-  header a {
+  .nova-site-header a {
     position: relative;
     text-decoration: none;
     color: var(--color-foreground);
@@ -101,13 +101,13 @@
     align-items: center;
     justify-content: center;
   }
-  header a sup {
+  .nova-site-header a sup {
     position: absolute;
     left: 100%;
     overflow: hidden;
     max-width: var(--page-margin);
   }
-  header a svg {
+  .nova-site-header a svg {
     width: 2rem;
   }
   .header__search {
