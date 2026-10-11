@@ -146,7 +146,8 @@
     "menu": "Menu",
     "view_all": "View all {{ title }}",
     "primary": "Primary navigation",
-    "close_menu": "Close menu"
+    "close_menu": "Close menu",
+    "search": "Search"
   },
   "home": {
     "configure": "Select collections in Theme Editor to show this section.",

@@ -34,11 +34,7 @@
   </div>
 
   <nav class="header__menu" aria-label="{{ 'navigation.primary' | t }}">
-    {% for link in section.settings.menu.links %}
-    <a href="{{ link.url }}">
-      {{ link.title}}
-    </a>
-    {% endfor %}
+    {% render 'navigation-links', links: section.settings.menu.links %}
   </nav>
 
   <div class="header__icons">
@@ -76,12 +72,11 @@
     </div>
 
     <nav class="mobile-nav__menu" aria-label="Menu">
-      {% for link in section.settings.menu.links %}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {% endfor %}
+      {% render 'navigation-links', links: section.settings.menu.links %}
     </nav>
   </div>
 </dialog>
+<noscript><nav class="nova-nojs-navigation" aria-label="{{ 'navigation.primary' | t }}">{% render 'navigation-links', links: section.settings.menu.links %}</nav></noscript>
 
 {% stylesheet %}
   .nova-site-header {

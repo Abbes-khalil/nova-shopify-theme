@@ -1,0 +1,5 @@
+{% doc %}
+  Renders up to three Shopify menu levels using native disclosures.
+  @param {array} links - Menu links
+{% enddoc %}
+{% for link in links %}<div class="nova-nav-item">{% if link.links != blank %}<details class="nova-nav-disclosure"><summary>{{ link.title | escape }}</summary><div class="nova-nav-children"><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% for child in link.links %}<a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>{% for grandchild in child.links %}<a class="nova-nav-grandchild" href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title | escape }}</a>{% endfor %}{% endfor %}</div></details>{% else %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% endif %}</div>{% endfor %}
