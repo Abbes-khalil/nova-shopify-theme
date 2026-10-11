@@ -82,48 +82,48 @@
         "type": "color",
         "id": "surface_color",
         "default": "#F5F5F5",
-        "label": "Secondary background"
+        "label": "t:nova_editor.global_3_settings_3_label"
       },
       {
         "type": "color",
         "id": "secondary_text_color",
         "default": "#737373",
-        "label": "Secondary text"
+        "label": "t:nova_editor.global_3_settings_4_label"
       },
       {
         "type": "color",
         "id": "border_color",
         "default": "#E5E5E5",
-        "label": "Border"
+        "label": "t:nova_editor.global_3_settings_5_label"
       },
       {
         "type": "color",
         "id": "accent_color",
         "default": "#171717",
-        "label": "Accent"
+        "label": "t:nova_editor.global_3_settings_6_label"
       },
       {
         "type": "color",
         "id": "accent_foreground_color",
         "default": "#FFFFFF",
-        "label": "Accent text"
+        "label": "t:nova_editor.global_3_settings_7_label"
       },
       {
         "type": "color",
         "id": "success_color",
         "default": "#166534",
-        "label": "Success"
+        "label": "t:nova_editor.global_3_settings_8_label"
       },
       {
         "type": "color",
         "id": "error_color",
         "default": "#B91C1C",
-        "label": "Error"
+        "label": "t:nova_editor.global_3_settings_9_label"
       }
     ]
   },
   {
-    "name": "Spacing and controls",
+    "name": "t:nova_editor.global_4_name",
     "settings": [
       {
         "type": "range",
@@ -133,7 +133,7 @@
         "step": 8,
         "unit": "px",
         "default": 64,
-        "label": "Section spacing"
+        "label": "t:nova_editor.global_4_settings_0_label"
       },
       {
         "type": "range",
@@ -143,7 +143,7 @@
         "step": 1,
         "unit": "px",
         "default": 0,
-        "label": "Button corner radius"
+        "label": "t:nova_editor.global_4_settings_1_label"
       }
     ]
   }

@@ -56,44 +56,45 @@
   }
 {% endstylesheet %}
 
+
 {% schema %}
 {
-  "name": "Announcement bar",
+  "name": "t:nova_editor.announcement_bar_name",
   "settings": [
     {
       "type": "checkbox",
       "id": "enabled",
-      "label": "Show announcement bar",
+      "label": "t:nova_editor.announcement_bar_settings_0_label",
       "default": true
     },
     {
       "type": "text",
       "id": "text",
-      "label": "Text",
-      "info": "Leave empty to hide the bar.",
+      "label": "t:nova_editor.announcement_bar_settings_1_label",
+      "info": "t:nova_editor.announcement_bar_settings_1_info",
       "default": "Free shipping on orders over $50!"
     },
     {
       "type": "url",
       "id": "link",
-      "label": "Link (optional)"
+      "label": "t:nova_editor.announcement_bar_settings_2_label"
     },
     {
       "type": "color",
       "id": "background",
-      "label": "Background color",
+      "label": "t:nova_editor.announcement_bar_settings_3_label",
       "default": "#121212"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text color",
+      "label": "t:nova_editor.announcement_bar_settings_4_label",
       "default": "#ffffff"
     }
   ],
   "presets": [
     {
-      "name": "Announcement bar"
+      "name": "t:nova_editor.announcement_bar_presets_0_name"
     }
   ]
 }

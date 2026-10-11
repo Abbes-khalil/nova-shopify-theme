@@ -254,6 +254,7 @@
   init();document.addEventListener('shopify:section:load',event=>init(event.target));
 {% endjavascript %}
 
+
 {% schema %}
 {
   "name": "t:general.header",
@@ -261,8 +262,8 @@
     {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo",
-      "info": "Optional. Falls back to the shop name when empty."
+      "label": "t:nova_editor.header_settings_0_label",
+      "info": "t:nova_editor.header_settings_0_info"
     },
     {
       "type": "range",
@@ -271,19 +272,19 @@
       "max": 300,
       "step": 10,
       "unit": "px",
-      "label": "Logo width",
+      "label": "t:nova_editor.header_settings_1_label",
       "default": 120
     },
     {
       "type": "link_list",
       "id": "search_menu",
-      "label": "Search menu"
+      "label": "t:nova_editor.header_settings_2_label"
     },
     {
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu",
-      "default":"main-menu"
+      "default": "main-menu"
     },
     {
       "type": "link_list",
