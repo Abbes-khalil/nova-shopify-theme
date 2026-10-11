@@ -1,0 +1,7 @@
+{% assign media_alt = media.alt | default: product.title %}
+{% case media.media_type %}
+  {% when 'image' %}{{ media.preview_image | image_url: width: 1600 | image_tag: widths: '480, 750, 1000, 1200, 1600', sizes: '(min-width: 990px) 55vw, 100vw', loading: loading, alt: media_alt }}
+  {% when 'video' %}{{ media | video_tag: controls: true, preload: 'none', image_size: '1000x', loop: false }}
+  {% when 'external_video' %}{{ media | external_video_tag: loading: 'lazy' }}
+  {% when 'model' %}{{ media | model_viewer_tag: reveal: 'interaction', toggleable: true, image_size: '1000x' }}
+{% endcase %}

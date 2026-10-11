@@ -91,7 +91,7 @@
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
     "in_stock": "In stock",
-    "unavailable": "Unavailable",
+    "unavailable": "This combination is unavailable. Choose another option.",
     "adding": "Adding…",
     "added": "Added to your cart.",
     "add_error": "We could not add this item. Please try again.",
@@ -131,7 +131,8 @@
     "error": "Suggestions are unavailable. Press Enter to search."
   },
   "accessibility": {
-    "skip_to_content": "Skip to content"
+    "skip_to_content": "Skip to content",
+    "close": "Close"
   },
   "navigation": {
     "main": "Main navigation",
